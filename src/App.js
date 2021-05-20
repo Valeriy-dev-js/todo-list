@@ -6,41 +6,45 @@ import { ToDoInput } from './components/ToDoInput';
 import { ToDoList } from './components/ToDoList';
 
 function App() {
-
+  console.log('Render App');
   const data =[{id: 1, title: 'Hello', completed: true},
                {id: 2, title: 'Buy', completed: false},
                {id: 3 , title: '???', completed: true}]
 
-  const [todo, setTodo] = useState('')
-  const handleChange = ({target}) => {
-    setTodo(target.value)
-  };
   
   const [todos, setTodos] = useState(data)
-  const handleSubmit = (e) => {
-    e.preventDefault()
+  const handleSubmit = (todo) => {
+    console.log(todo)
     if(todo !== ''){
       setTodos(prev => [{id: Date.now(), title: todo.trim(), completed: false}, ...prev])
-      setTodo('')
     }
     console.log(todos);
   };
 
-  const handlDelete = (targetId) => {
-    console.log("Target", targetId);
-    // setTodos(prev => prev.filter(task => task.id !== targetId))
+  const handlDelete = ({currentTarget}) => {
+    const targetId = currentTarget.id
+    setTodos(prev => prev.filter(task => task.id.toString() !== targetId))
   };
+
+  const handleCheck = (id) =>{    
+      console.log(id);
+      todos.map(e => console.log(e))
+      // setTodos(prev => prev.map(task => console.log(task)))
+      setTodos(prev => prev.reverse())
+  }
 
 
   return (
     <Container maxWidth = 'sm'>
       <Typography variant='h1' align='center'>To Do</Typography>
-      <ToDoInput handleChange={handleChange}
-                 handleSubmit={handleSubmit}
-                 value ={todo} />
-                 <h1>1.{todo}</h1>
+      <ToDoInput handleSubmit={handleSubmit}
+                 todos={todos}
+                 setTodos={setTodos}
+                  />
       <Sorter />
-      <ToDoList todos={todos} handelDelete={handlDelete}/>
+      <ToDoList todos={todos} 
+                handlDelete={handlDelete}
+                handleCheck={handleCheck}/>
     </Container>
   );
 }
