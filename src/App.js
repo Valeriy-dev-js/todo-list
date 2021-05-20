@@ -24,8 +24,12 @@ function App() {
       setTodo('')
     }
     console.log(todos);
-  }
+  };
 
+  const handlDelete = (targetId) => {
+    console.log("Target", targetId);
+    // setTodos(prev => prev.filter(task => task.id !== targetId))
+  };
 
 
   return (
@@ -36,7 +40,7 @@ function App() {
                  value ={todo} />
                  <h1>1.{todo}</h1>
       <Sorter />
-      <ToDoList todos={todos}/>
+      <ToDoList todos={todos} handelDelete={handlDelete}/>
     </Container>
   );
 }
