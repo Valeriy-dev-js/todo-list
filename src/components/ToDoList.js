@@ -8,11 +8,11 @@ import React from 'react';
 export const ToDoList = ({todos}) => {
     return (
        <List>
-           {todos.map((todo, index) => (
+           {todos.map(({id, title, completed}) => (
         
-            <ListItem>
-                <Checkbox color='primary' icon={<CheckCircleOutlineIcon  />} checkedIcon={<CheckCircleIcon />}/>
-                <ListItemText key={index} primary={todo}/>
+            <ListItem key={id}>
+                <Checkbox checked={completed} color='primary' icon={<CheckCircleOutlineIcon  />} checkedIcon={<CheckCircleIcon />}/>
+                <ListItemText primary={title}/>
                 <ListItemSecondaryAction>
                     <IconButton>
                         <DeleteIcon />
