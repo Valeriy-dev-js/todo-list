@@ -1,28 +1,39 @@
-import { Checkbox, IconButton, ListItem, ListItemSecondaryAction, ListItemText } from "@material-ui/core";
+import { Checkbox, Grid, IconButton, ListItem, ListItemText } from "@material-ui/core";
 import React from "react";
 import DeleteIcon from '@material-ui/icons/Delete';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline';
 
-export const ToDoLIstItem = ({ todo, handlDelete, handleCheck}) =>{   
 
+
+export const ToDoLIstItem = ({ todo, handlDelete, handleCheck}) =>{   
     const time = new Date(todo.id).toLocaleString().match(/\d+.\d+.\d{4}/s)[0] 
     return(
         <ListItem> 
-            <Checkbox
-                onChange={() => handleCheck(todo.id)} 
-                checked={todo.completed} 
-                color='primary' icon={<CheckCircleOutlineIcon  />} 
-                checkedIcon={<CheckCircleIcon />}
-            />
-
-            <ListItemText primary={todo.title}/>
-            <ListItemText primary={time}/>
-            <ListItemSecondaryAction>
-                <IconButton onClick={()=>handlDelete(todo.id)} >
-                    <DeleteIcon />
-                </IconButton>
-            </ListItemSecondaryAction>
+            <Grid container
+                  direction='row'
+                  alignItems='center'
+                  spacing={1}>
+                <Grid xs={1}>
+                    <Checkbox
+                        onChange={() => handleCheck(todo.id)} 
+                        checked={todo.completed} 
+                        color='primary' icon={<CheckCircleOutlineIcon  />} 
+                        checkedIcon={<CheckCircleIcon />}
+                    />
+                </Grid>
+                <Grid xs={8}>
+                    <ListItemText primary={todo.title}/>
+                </Grid>
+                <Grid xs={2}>
+                    <ListItemText primary={time} />
+                </Grid>
+                <Grid xs={1}>
+                    <IconButton onClick={()=>handlDelete(todo.id)} >
+                        <DeleteIcon />
+                    </IconButton>                
+                </Grid>                    
+            </Grid>
         </ListItem>
     )
 }
