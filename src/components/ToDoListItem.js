@@ -10,9 +10,11 @@ export const ToDoLIstItem = ({ todo, handlDelete, handleCheck}) =>{
             <Checkbox
                 onChange={() => handleCheck(todo.id)} 
                 checked={todo.completed} 
-            color='primary' icon={<CheckCircleOutlineIcon  />} 
-            checkedIcon={<CheckCircleIcon />}/>
+                color='primary' icon={<CheckCircleOutlineIcon  />} 
+                checkedIcon={<CheckCircleIcon />}
+            />
 
+            <ListItemText primary={todo.title}/>
             <ListItemText primary={todo.title}/>
             <ListItemSecondaryAction>
                 <IconButton onClick={()=>handlDelete(todo.id)} >

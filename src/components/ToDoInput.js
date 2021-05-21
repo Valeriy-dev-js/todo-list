@@ -6,6 +6,7 @@ export const ToDoInput = ({ handleSubmit}) => {
     const handleChange = ({target}) => {
         setTodo(target.value)
       }
+    
     return (
     <form onSubmit={event => {
         event.preventDefault()

@@ -6,30 +6,29 @@ import { ToDoInput } from './components/ToDoInput';
 import { ToDoList } from './components/ToDoList';
 
 function App() {
-  console.log('Render App');
-  const data =[{id: 1, title: 'Hello', completed: true},
-               {id: 2, title: 'Buy', completed: false},
-               {id: 3 , title: '???', completed: true}]
+  const data = [{id: 1, title: 'Hello', completed: true},
+                {id: 2, title: 'Buy', completed: false},
+                {id: 3 , title: '???', completed: true}];
 
   
   const [todos, setTodos] = useState(data)
   const handleSubmit = (todo) => {
-    console.log(todo)
     if(todo !== ''){
       setTodos(prev => [{id: Date.now(), title: todo.trim(), completed: false}, ...prev])
     }
-    console.log(todos);
   };
+
 
   const handlDelete = (id) => {
     setTodos(prev => prev.filter(task => task.id !== id))
   };
 
-  const handleCheck = (id) =>{    
-      console.log(id);
-      todos.map(e => console.log(e))
-      // setTodos(prev => prev.map(task => console.log(task)))
-      setTodos(prev => prev.reverse())
+  const handleCheck = (id) =>{
+    setTodos(prev => prev.map(todo => 
+      todo.id === id
+      ? {id: todo.id, title: todo.title, completed: !todo.completed}
+      : todo
+      ))
   }
 
 
