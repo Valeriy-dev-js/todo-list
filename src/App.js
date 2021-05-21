@@ -23,13 +23,12 @@ function App() {
     setTodos(prev => prev.filter(task => task.id !== id))
   };
 
-  const handleCheck = (id) =>{
-    setTodos(prev => prev.map(todo => 
-      todo.id === id
-      ? {id: todo.id, title: todo.title, completed: !todo.completed}
-      : todo
-      ))
+  const handleCheck = (index) =>{
+    const newTodos = [...todos]
+    newTodos[index].completed = !newTodos[index].completed
+    setTodos(newTodos)
   }
+
 
 
   return (

@@ -5,8 +5,9 @@ import { ToDoLIstItem } from './ToDoListItem';
 export const ToDoList = ({todos, handlDelete, handleCheck}) => {            
     return (
        <List>
-           {todos.map((todo) => (
-               <ToDoLIstItem 
+           {todos.map((todo, index) => (
+               <ToDoLIstItem
+                    id={index} 
                     key={todo.id} 
                     todo={todo}
                     handlDelete={handlDelete} 

@@ -6,7 +6,7 @@ import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline';
 
 
 
-export const ToDoLIstItem = ({ todo, handlDelete, handleCheck}) =>{   
+export const ToDoLIstItem = ({ todo, handlDelete, handleCheck, id}) =>{   
     const time = new Date(todo.id).toLocaleString().match(/\d+.\d+.\d{4}/s)[0] 
     return(
         <ListItem> 
@@ -16,7 +16,7 @@ export const ToDoLIstItem = ({ todo, handlDelete, handleCheck}) =>{
                   spacing={1}>
                 <Grid item xs={1}>
                     <Checkbox
-                        onChange={() => handleCheck(todo.id)} 
+                        onChange={() => handleCheck(id)} 
                         checked={todo.completed} 
                         color='primary' icon={<CheckCircleOutlineIcon  />} 
                         checkedIcon={<CheckCircleIcon />}
