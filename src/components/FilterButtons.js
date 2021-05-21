@@ -7,7 +7,7 @@ export const FilterButtons = ({ filter , handleClick }) => {
             {filter.map(button =>(
             <Button color='primary' 
                     key={button.title}
-                    variant='contained'
+                    variant={button.toggle && 'contained'}
                     onClick={() => handleClick(button)}>{button.title}</Button>
             ))}
         </ButtonGroup>  

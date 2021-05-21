@@ -8,20 +8,19 @@ export const Sorter = () =>{
     const filterButtons = [{title: 'All', toggle: true},
                            {title: 'Done', toggle: false},
                            {title: 'Undone', toggle: false}];
+
+
     const [filter, setFilter] = useState(filterButtons)
 
     const handleClick = (button) => {
-        console.log(button)
-        // setFilter(prev => prev.map(button => 
-        //     button.title === title
-        //     ? {title: button.title, toggle: !button.toggle}
-        //     : button
-        //     ))
+        if(!button.toggle){
+            setFilter(prev => prev.map(item => 
+                button.title === item.title
+                ? {title: item.title, toggle: !item.toggle}
+                : {title: item.title, toggle: false}
+            ))
+        }
     };
-
-    // const handleClick = (title) => {
-    //     setFilter(prev => prev.map(button => {title: button.title, toggle: !button.toggle}))
-    // };
 
     return(
         <Grid container
@@ -38,14 +37,14 @@ export const Sorter = () =>{
                       alignItems='center'
                       >
                     <Typography>Sort by Date</Typography>
-                    <ButtonGroup>
+                    {/* <ButtonGroup>
                         <IconButton color='primary'>
                             <ArrowUpwardIcon />
                         </IconButton>
                         <IconButton>
                             <ArrowDownwardIcon />
                         </IconButton>
-                    </ButtonGroup>
+                    </ButtonGroup> */}
                 </Grid>
             </Grid>
         </Grid>
