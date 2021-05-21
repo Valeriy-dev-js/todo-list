@@ -1,7 +1,7 @@
 import { Container, Typography } from '@material-ui/core';
 import { useState } from 'react';
 import './App.css';
-import { Sorter } from './components/Sorter';
+import { SorterFilter } from './components/SorterFilter';
 import { ToDoInput } from './components/ToDoInput';
 import { ToDoList } from './components/ToDoList';
 
@@ -39,7 +39,7 @@ function App() {
                  todos={todos}
                  setTodos={setTodos}
                   />
-      <Sorter />
+      <SorterFilter />
       <ToDoList todos={todos} 
                 handlDelete={handlDelete}
                 handleCheck={handleCheck}/>
