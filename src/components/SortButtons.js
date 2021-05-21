@@ -3,15 +3,17 @@ import React from 'react';
 import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
 import ArrowUpwardIcon from '@material-ui/icons/ArrowUpward';
 
-export const SortButtons = () =>{
+export const SortButtons = ({ sorter, handleSort }) => {
     return (
         <>
-        <IconButton color='primary'>
-            <ArrowUpwardIcon />
-        </IconButton>
-        <IconButton>
-            <ArrowDownwardIcon />
-        </IconButton>
-        </>     
+            <IconButton color={sorter ? 'primary' : 'default'}
+                onClick={() => handleSort(true)}>
+                <ArrowUpwardIcon />
+            </IconButton>
+            <IconButton color={!sorter ? 'primary' : 'default'}
+                onClick={() => handleSort(false)}>
+                <ArrowDownwardIcon />
+            </IconButton>
+        </>
     )
 }

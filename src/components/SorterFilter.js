@@ -9,10 +9,16 @@ export const SorterFilter = () =>{
                            {title: 'Undone', toggle: false}];
 
 
+    const [sorter, setSorter] = useState(true)
     const [filter, setFilter] = useState(filterButtons)
-    
 
-    const handleClick = (button) => {
+    const handleSort = (a) =>{
+        if(a !== sorter){
+            setSorter(prev => !prev)
+        }
+    }
+    
+    const handleFilter = (button) => {
         if(!button.toggle){
             setFilter(prev => prev.map(item => 
                 button.title === item.title
@@ -29,7 +35,7 @@ export const SorterFilter = () =>{
               justify='space-between'>
             <Grid >
                 <FilterButtons filter={filter}
-                               handleClick={handleClick}/>     
+                               handleFilter={handleFilter}/>     
             </Grid>
             <Grid >
                 <Grid container
@@ -37,7 +43,8 @@ export const SorterFilter = () =>{
                       alignItems='center'
                       >
                     <Typography>Sort by Date</Typography>
-                    <SortButtons />
+                    <SortButtons sorter={sorter}
+                                 handleSort={handleSort}/>
                 </Grid>
             </Grid>
         </Grid>

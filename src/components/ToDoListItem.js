@@ -14,7 +14,7 @@ export const ToDoLIstItem = ({ todo, handlDelete, handleCheck}) =>{
                   direction='row'
                   alignItems='center'
                   spacing={1}>
-                <Grid xs={1}>
+                <Grid item xs={1}>
                     <Checkbox
                         onChange={() => handleCheck(todo.id)} 
                         checked={todo.completed} 
@@ -22,13 +22,13 @@ export const ToDoLIstItem = ({ todo, handlDelete, handleCheck}) =>{
                         checkedIcon={<CheckCircleIcon />}
                     />
                 </Grid>
-                <Grid xs={8}>
+                <Grid item xs={8}>
                     <ListItemText primary={todo.title}/>
                 </Grid>
-                <Grid xs={2}>
+                <Grid item xs={2}>
                     <ListItemText primary={time} />
                 </Grid>
-                <Grid xs={1}>
+                <Grid item xs={1}>
                     <IconButton onClick={()=>handlDelete(todo.id)} >
                         <DeleteIcon />
                     </IconButton>                
