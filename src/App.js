@@ -12,12 +12,12 @@ function App() {
 
   
   const [todos, setTodos] = useState(data)
+
   const handleSubmit = (todo) => {
     if(todo !== ''){
       setTodos(prev => [{id: Date.now(), title: todo.trim(), completed: false}, ...prev])
     }
   };
-
 
   const handlDelete = (id) => {
     setTodos(prev => prev.filter(task => task.id !== id))
