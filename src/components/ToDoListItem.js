@@ -15,7 +15,7 @@ export const ToDoLIstItem = ({ todo, handlDelete, handleCheck}) =>{
 
             <ListItemText primary={todo.title}/>
             <ListItemSecondaryAction>
-                <IconButton onClick={handlDelete} >
+                <IconButton onClick={()=>handlDelete(todo.id)} >
                     <DeleteIcon />
                 </IconButton>
             </ListItemSecondaryAction>

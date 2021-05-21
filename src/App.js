@@ -21,9 +21,8 @@ function App() {
     console.log(todos);
   };
 
-  const handlDelete = ({currentTarget}) => {
-    const targetId = currentTarget.id
-    setTodos(prev => prev.filter(task => task.id.toString() !== targetId))
+  const handlDelete = (id) => {
+    setTodos(prev => prev.filter(task => task.id !== id))
   };
 
   const handleCheck = (id) =>{    
