@@ -3,6 +3,7 @@ import React from "react";
 import DeleteIcon from '@material-ui/icons/Delete';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline';
+import RadioButtonUncheckedIcon from '@material-ui/icons/RadioButtonUnchecked';
 
 
 
@@ -18,7 +19,7 @@ export const ToDoLIstItem = ({ todo, handlDelete, handleCheck, id}) =>{
                     <Checkbox
                         onChange={() => handleCheck(id)} 
                         checked={todo.completed} 
-                        color='primary' icon={<CheckCircleOutlineIcon  />} 
+                        color='primary' icon={<RadioButtonUncheckedIcon  />} 
                         checkedIcon={<CheckCircleIcon />}
                     />
                 </Grid>
