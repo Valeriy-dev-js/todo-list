@@ -6,16 +6,16 @@ import { ToDoInput } from './components/ToDoInput';
 import { ToDoList } from './components/ToDoList';
 
 function App() {
-  const data = [{id: 1, title: 'Hello', completed: true},
-                {id: 2, title: 'Buy', completed: false},
-                {id: 3 , title: '???', completed: true}];
+  const data = [{id: 1, title: 'Hello', completed: true, date: 1},
+                {id: 2, title: 'Buy', completed: false, date: 1},
+                {id: 3 , title: '???', completed: true, date: 1}];
 
   
   const [todos, setTodos] = useState(data)
 
   const handleSubmit = (todo) => {
     if(todo !== ''){
-      setTodos(prev => [{id: Date.now(), title: todo.trim(), completed: false}, ...prev])
+      setTodos(prev => [{id: Date.now(), title: todo.trim(), completed: false, date: Date.now()}, ...prev])
     }
   };
 
@@ -23,8 +23,9 @@ function App() {
     setTodos(prev => prev.filter(task => task.id !== id))
   };
 
-  const handleCheck = (index) =>{
+  const handleCheck = (id) =>{
     const newTodos = [...todos]
+    const index = newTodos.findIndex(todo => todo.id === id)
     newTodos[index].completed = !newTodos[index].completed
     setTodos(newTodos)
   }
@@ -35,7 +36,7 @@ function App() {
     setTodos(newTodos)
   }
   const handleFilter = () => {
-    
+
   }
 
 

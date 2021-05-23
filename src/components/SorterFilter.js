@@ -8,7 +8,7 @@ export const SorterFilter = ({ handleSorter , handleFilter }) => {
 
     const Sorter = (type) => {
         sorterFilter.current.sorterType = type
-        handleSorter(sorterFilter) 
+        handleSorter() 
     }
 
     const Filter = (type) => {

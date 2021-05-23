@@ -6,7 +6,7 @@ import RadioButtonUncheckedIcon from '@material-ui/icons/RadioButtonUnchecked';
 
 
 
-export const ToDoLIstItem = ({ todo, handlDelete, handleCheck, id}) =>{   
+export const ToDoLIstItem = ({ todo, handlDelete, handleCheck}) =>{   
     const time = new Date(todo.id).toLocaleString().match(/\d+.\d+.\d{4}/s)[0] 
     return(
         <ListItem> 
@@ -16,7 +16,7 @@ export const ToDoLIstItem = ({ todo, handlDelete, handleCheck, id}) =>{
                   spacing={1}>
                 <Grid item xs={1}>
                     <Checkbox
-                        onChange={() => handleCheck(id)} 
+                        onChange={() => handleCheck(todo.id)} 
                         checked={todo.completed} 
                         color='primary' icon={<RadioButtonUncheckedIcon  />} 
                         checkedIcon={<CheckCircleIcon />}
