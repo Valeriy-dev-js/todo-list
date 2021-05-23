@@ -3,11 +3,10 @@ import React, { useState } from "react";
 import { FilterButtons } from "./FilterButtons";
 import { SortButtons } from "./SortButtons";
 
-export const SorterFilter = ( {filterSorter}) => {
-    const [sorterFilter, setSorterFilter] = useState({ sorterType: true, filterType: 'All' })
+export const SorterFilter = ( {filterSorter, sorterFilter, setSorterFilter}) => {
+    // const [sorterFilter, setSorterFilter] = useState({ sorterType: true, filterType: 'All' })
 
     const handleSorter = (type) => {
-        filterSorter()
         setSorterFilter(prev => ({...prev, sorterType: type}))
     }
 
