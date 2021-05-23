@@ -1,7 +1,7 @@
 import { Button, ButtonGroup } from '@material-ui/core';
 import React, { useState } from 'react';
 
-export const FilterButtons = ({ handleFilter }) => {
+export const FilterButtons = ({ Filter }) => {
     const filterButtons = [{ title: 'All', selected: true },
     { title: 'Done', selected: false },
     { title: 'Undone', selected: false }];
@@ -11,7 +11,7 @@ export const FilterButtons = ({ handleFilter }) => {
     const handleButton = (button) => {
         if (!button.selected) {
             setFilter(prev => {
-                handleFilter(button.title)
+                Filter(button.title)
                 return prev.map(item =>
                     button.title === item.title
                         ? { title: item.title, selected: !item.selected }

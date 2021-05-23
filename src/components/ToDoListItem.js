@@ -2,7 +2,6 @@ import { Checkbox, Grid, IconButton, ListItem, ListItemText } from "@material-ui
 import React from "react";
 import DeleteIcon from '@material-ui/icons/Delete';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
-import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline';
 import RadioButtonUncheckedIcon from '@material-ui/icons/RadioButtonUnchecked';
 
 

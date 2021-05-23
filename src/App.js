@@ -29,6 +29,15 @@ function App() {
     setTodos(newTodos)
   }
 
+  const handleSorter = () => {
+
+    const newTodos = [...todos].reverse()
+    setTodos(newTodos)
+  }
+  const handleFilter = () => {
+    
+  }
+
 
 
   return (
@@ -38,7 +47,8 @@ function App() {
                  todos={todos}
                  setTodos={setTodos}
                   />
-      <SorterFilter />
+      <SorterFilter handleSorter ={handleSorter}
+                    handleFilter={handleFilter}/>
       <ToDoList todos={todos} 
                 handlDelete={handlDelete}
                 handleCheck={handleCheck}/>
