@@ -1,27 +1,27 @@
 import { IconButton } from '@material-ui/core';
-import React, { useState } from 'react';
+import React from 'react';
 import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
 import ArrowUpwardIcon from '@material-ui/icons/ArrowUpward';
 
-export const SortButtons = ({ Sorter }) => {
+export const SortButtons = ({ handleSorter , sorterType}) => {
 
-    const [sorter, setSorter] = useState(true)
+    // const [sorter, setSorter] = useState(true)
 
-    const hanbleButton = (type) => {
-        if(type !== sorter){
-            Sorter(type)
-            setSorter(!sorter)
-        }
+    const handleButton = (type) => {
+        if(type !== sorterType){
+            handleSorter(type)
+        }   
     }
+
 
     return (
         <>
-            <IconButton color={sorter ? 'primary' : 'default'}
-                onClick={() => hanbleButton(true)}>
+            <IconButton color={sorterType ? 'primary' : 'default'}
+                onClick={() => handleButton(true)}>
                 <ArrowUpwardIcon />
             </IconButton>
-            <IconButton color={!sorter ? 'primary' : 'default'}
-                onClick={() => hanbleButton(false)}>
+            <IconButton color={!sorterType ? 'primary' : 'default'}
+                onClick={() => handleButton(false)}>
                 <ArrowDownwardIcon />
             </IconButton>
         </>

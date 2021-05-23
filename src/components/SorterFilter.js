@@ -1,21 +1,17 @@
 import { Grid, Typography } from "@material-ui/core";
-import React, {  useRef } from "react";
+import React, { useState } from "react";
 import { FilterButtons } from "./FilterButtons";
 import { SortButtons } from "./SortButtons";
 
-export const SorterFilter = ({ handleSorter , handleFilter }) => {
-    const sorterFilter = useRef({ sorterType: true, filterType: 'All' })
+export const SorterFilter = ( {filterSorter}) => {
+    const [sorterFilter, setSorterFilter] = useState({ sorterType: true, filterType: 'All' })
 
-    const Sorter = (type) => {
-        sorterFilter.current.sorterType = type
-        handleSorter() 
+    const handleSorter = (type) => {
+        filterSorter()
+        setSorterFilter(prev => ({...prev, sorterType: type}))
     }
 
-    const Filter = (type) => {
-        sorterFilter.current.filterType = type
-        handleFilter(sorterFilter) 
-
-    }
+    const handleFilter = (type) => setSorterFilter(prev => ({...prev, filterType: type}))
 
 
     return (
@@ -24,7 +20,8 @@ export const SorterFilter = ({ handleSorter , handleFilter }) => {
             alignItems='center'
             justify='space-between'>
             <Grid >
-                <FilterButtons Filter={Filter} />
+                <FilterButtons handleFilter={handleFilter}
+                               filterType={sorterFilter.filterType} />
             </Grid>
             <Grid >
                 <Grid container
@@ -32,7 +29,8 @@ export const SorterFilter = ({ handleSorter , handleFilter }) => {
                     alignItems='center'
                 >
                     <Typography>Sort by Date</Typography>
-                    <SortButtons Sorter={Sorter} />
+                    <SortButtons handleSorter={handleSorter}
+                                 sorterType={sorterFilter.sorterType} />
                 </Grid>
             </Grid>
         </Grid>

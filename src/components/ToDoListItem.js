@@ -6,7 +6,7 @@ import RadioButtonUncheckedIcon from '@material-ui/icons/RadioButtonUnchecked';
 
 
 
-export const ToDoLIstItem = ({ todo, handlDelete, handleCheck}) =>{   
+export const ToDoLIstItem = ({ todo, handleDelete, handleCheck}) =>{   
     const time = new Date(todo.id).toLocaleString().match(/\d+.\d+.\d{4}/s)[0] 
     return(
         <ListItem> 
@@ -29,7 +29,7 @@ export const ToDoLIstItem = ({ todo, handlDelete, handleCheck}) =>{
                     <ListItemText primary={time} />
                 </Grid>
                 <Grid item xs={1}>
-                    <IconButton onClick={()=>handlDelete(todo.id)} >
+                    <IconButton onClick={()=>handleDelete(todo.id)} >
                         <DeleteIcon />
                     </IconButton>                
                 </Grid>                    

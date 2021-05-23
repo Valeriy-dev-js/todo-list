@@ -12,6 +12,7 @@ function App() {
 
   
   const [todos, setTodos] = useState(data)
+  console.log('Render');
 
   const handleSubmit = (todo) => {
     if(todo !== ''){
@@ -19,7 +20,7 @@ function App() {
     }
   };
 
-  const handlDelete = (id) => {
+  const handleDelete = (id) => {
     setTodos(prev => prev.filter(task => task.id !== id))
   };
 
@@ -30,13 +31,9 @@ function App() {
     setTodos(newTodos)
   }
 
-  const handleSorter = () => {
-
+  const filterSorter = () => {
     const newTodos = [...todos].reverse()
     setTodos(newTodos)
-  }
-  const handleFilter = () => {
-
   }
 
 
@@ -48,11 +45,10 @@ function App() {
                  todos={todos}
                  setTodos={setTodos}
                   />
-      <SorterFilter handleSorter ={handleSorter}
-                    handleFilter={handleFilter}/>
+      <SorterFilter filterSorter ={filterSorter}/>
       <ToDoList todos={todos} 
-                handlDelete={handlDelete}
-                handleCheck={handleCheck}/>
+                handleCheck={handleCheck}
+                handleDelete={handleDelete}/>
     </Container>
   );
 }
