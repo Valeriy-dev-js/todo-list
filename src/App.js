@@ -1,6 +1,7 @@
 import { Container, Typography } from '@material-ui/core';
 import { useMemo, useState } from 'react';
 import './App.css';
+import { Pagination } from './components/Pagination';
 import { SorterFilter } from './components/SorterFilter';
 import { ToDoInput } from './components/ToDoInput';
 import { ToDoList } from './components/ToDoList';
@@ -13,6 +14,7 @@ function App() {
   //State
   const [todos, setTodos] = useState(data)
   const [sorterFilter, setSorterFilter] = useState({ sorterType: true, filterType: 'All' })
+
 
 
   //Action functions
@@ -88,6 +90,7 @@ function App() {
         handleCheck={handleCheck}
         handleDelete={handleDelete}
         handleTodoChange={handleTodoChange}/>
+      <Pagination />
     </Container>
   );
 }
