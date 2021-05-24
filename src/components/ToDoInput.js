@@ -3,15 +3,14 @@ import React, { useState } from "react";
 
 export const ToDoInput = ({ handleSubmit }) => {
     const [todo, setTodo] = useState('');
-    const handleChange = ({ target }) => {
-        setTodo(target.value);
-    };
+    // const handleChange = ({ target }) => {
+    //     setTodo(target.value);
+    // };
     const pressEnter = (event) => {
         if (event.key === 'Enter') {
-            event.preventDefault()
-            setTodo('')
-            handleSubmit(todo)
-            console.log(event.target.value);
+            event.preventDefault();
+            handleSubmit(todo);
+            setTodo('');
         };
     };
 
@@ -22,7 +21,7 @@ export const ToDoInput = ({ handleSubmit }) => {
             fullWidth
             variant='outlined'
             margin='normal'
-            onChange={handleChange}
+            onChange={e => setTodo(e.target.value)}
             onKeyDown={(e) => pressEnter(e)}
             value={todo}
         />

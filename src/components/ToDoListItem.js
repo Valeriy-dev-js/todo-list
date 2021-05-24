@@ -14,12 +14,15 @@ export const ToDoLIstItem = ({ todo, handleDelete, handleCheck, handleTodoChange
 
     const time = new Date(todo.date).toLocaleString().match(/\d+.\d+.\d{4}/s)[0];
     const [toggleInput, setToggleInput] = useState(false);
-    const [inpitValue, setInputValue] = useState(todo.title);
+    const [inputValue, setInputValue] = useState(todo.title);
 
     const handleKeyDown = (id, e) => {
         if (e.key === 'Enter') {
-            setToggleInput(false);
-            handleTodoChange(id, inpitValue);
+            e.preventDefault();
+            if(inputValue !== ''){
+                setToggleInput(false);
+                handleTodoChange(id, inputValue);
+            };
         };
         if (e.key === 'Escape') {
             setToggleInput(false);
@@ -44,13 +47,15 @@ export const ToDoLIstItem = ({ todo, handleDelete, handleCheck, handleTodoChange
                     {toggleInput
                         ? <TextField 
                             multiline={true}
-                            value={inpitValue}
+                            value={inputValue}
                             fullWidth
                             variant='outlined'
                             autoFocus={true}
                             onChange={e => setInputValue(e.target.value)}
                             onKeyDown={e => handleKeyDown(todo.id, e)} />
-                        : <ListItemText primary={inpitValue}
+                        : <ListItemText primary={inputValue}
+                            style={{overflowWrap: 'break-word'}}
+                            multiline='true'
                             onClick={() => setToggleInput(true)} />}
                 </Grid>
                 <Grid item xs={2}>
