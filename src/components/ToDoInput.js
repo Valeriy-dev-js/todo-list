@@ -6,21 +6,25 @@ export const ToDoInput = ({ handleSubmit }) => {
     const handleChange = ({ target }) => {
         setTodo(target.value);
     };
+    const pressEnter = (event) => {
+        if (event.key === 'Enter') {
+            event.preventDefault()
+            setTodo('')
+            handleSubmit(todo)
+            console.log(event.target.value);
+        };
+    };
 
     return (
-        <form onSubmit={event => {
-            event.preventDefault()
-            handleSubmit(todo)
-            setTodo('')
-        }}>
-            <TextField
-                label='ToDo'
-                fullWidth
-                variant='outlined'
-                margin='normal'
-                onChange={handleChange}
-                value={todo}
-            />
-        </form>
+        <TextField
+            multiline={true}
+            label='ToDo'
+            fullWidth
+            variant='outlined'
+            margin='normal'
+            onChange={handleChange}
+            onKeyDown={(e) => pressEnter(e)}
+            value={todo}
+        />
     );
 };

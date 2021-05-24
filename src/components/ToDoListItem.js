@@ -42,7 +42,9 @@ export const ToDoLIstItem = ({ todo, handleDelete, handleCheck, handleTodoChange
                 </Grid>
                 <Grid item xs={8}>
                     {toggleInput
-                        ? <TextField value={inpitValue}
+                        ? <TextField 
+                            multiline={true}
+                            value={inpitValue}
                             fullWidth
                             variant='outlined'
                             autoFocus={true}

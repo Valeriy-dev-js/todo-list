@@ -1,5 +1,5 @@
 import { Container, Typography } from '@material-ui/core';
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import './App.css';
 import { Pagination } from './components/Pagination';
 import { SorterFilter } from './components/SorterFilter';
