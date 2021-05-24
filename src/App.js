@@ -74,6 +74,7 @@ function App() {
     const indexOfLastPost = currentPage * postsPerPage;
     const indexOfFirstPost = indexOfLastPost - postsPerPage;
     const currentPosts = sortFiltTodos.slice(indexOfFirstPost, indexOfLastPost);
+    console.log(currentPosts);
     return currentPosts;
   }, [currentPage, postsPerPage, sortFiltTodos]);
 
@@ -93,11 +94,13 @@ function App() {
         handleCheck={handleCheck}
         handleDelete={handleDelete}
         handleTodoChange={handleTodoChange} />
-      <Pagination
+      {(paginateTodos.length > 0) &&
+        <Pagination
         totalPosts={sortFiltTodos.length}
         postsPerPage={postsPerPage}
         currentPage={currentPage}
         setCurrentPage={setCurrentPage} />
+        }
     </Container>
   );
 };

@@ -1,4 +1,4 @@
-import { Button, ButtonGroup } from '@material-ui/core';
+import { Button, ButtonGroup, Grid } from '@material-ui/core';
 import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import React from 'react';
@@ -10,14 +10,16 @@ export const Pagination = ({ totalPosts, postsPerPage , currentPage, setCurrentP
     };
 
     return (
-        <ButtonGroup fullWidth >
+        <Grid container>
             <Button 
                 color='primary'
                 onClick={() => setCurrentPage(1)}>
                 <ArrowBackIosIcon />
                 <ArrowBackIosIcon />
             </Button>
-            {pageNumbers.map(number => (
+                <Grid item xs={9}>
+                    <ButtonGroup fullWidth>
+                    {pageNumbers.map(number => (
                 <Button 
                     color='primary'
                     key={number} 
@@ -26,12 +28,16 @@ export const Pagination = ({ totalPosts, postsPerPage , currentPage, setCurrentP
                     {number}
                 </Button>
             ))}
+                    </ButtonGroup>
+
+                </Grid>
+            
             <Button 
                 color='primary'
                 onClick={() => setCurrentPage(pageNumbers.length)}>
                 <ArrowForwardIosIcon />
                 <ArrowForwardIosIcon />
             </Button>
-        </ButtonGroup >
+        </Grid>
     );
 };
