@@ -1,20 +1,20 @@
 import { Container, Typography } from '@material-ui/core';
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import './App.css';
 import { SorterFilter } from './components/SorterFilter';
 import { ToDoInput } from './components/ToDoInput';
 import { ToDoList } from './components/ToDoList';
 
 function App() {
-  const data = [{ id: 1, title: 'Hello', completed: true, date: 1 },
+  const data = [{ id: 1, title: 'Hello', completed: true, date: 3 },
   { id: 2, title: 'Buy', completed: false, date: 2 },
-  { id: 3, title: '???', completed: true, date: 3 }];
+  { id: 3, title: '???', completed: true, date: 1 }];
 
 
-  const [todos, setTodos] = useState(data)
+  const [todos, setTodos] = useState([])
   const [sorterFilter, setSorterFilter] = useState({ sorterType: true, filterType: 'All' })
 
-  const [filterTodos, setFilterTodos] = useState([])
+  // const [filterTodos, setFilterTodos] = useState([])
 
 
   const handleSubmit = (todo) => {
@@ -34,16 +34,34 @@ function App() {
     setTodos(newTodos)
   }
 
-  useEffect(() => {
-    const {sortType, filterType} = sorterFilter
-    const newTodos = [...todos]
-    newTodos.sort((a, b) => a.id > b.id ? -1 : 1)
-    setFilterTodos(newTodos)
-    console.log(JSON.stringify(filterTodos, null, 2))
+  const resultTodos = useMemo(() => {
+
+    const iteratingTodos = [...todos]
+    const { sorterType, filterType } = sorterFilter
+    //Sorting todos by date
+    const sortedTodos = iteratingTodos.sort((a, b) => {
+      if (sorterType){
+        return b.date - a.date
+      }
+      return a.date - b.date})
+    //Filtering todos
+    const filteredTodos = sortedTodos.filter(item => {
+      switch(filterType){
+        case 'All':
+          return item;
+        case 'Done':
+          return item.completed === true
+        default:
+          return item.completed === false;
+      }
+    })
 
 
-
+    return filteredTodos
   }, [todos, sorterFilter])
+
+
+
 
 
 
@@ -55,11 +73,11 @@ function App() {
         todos={todos}
         setTodos={setTodos}
       />
-      <SorterFilter 
-        sorterFilter={sorterFilter} 
+      <SorterFilter
+        sorterFilter={sorterFilter}
         setSorterFilter={setSorterFilter} />
-      <ToDoList 
-        todos={todos}
+      <ToDoList
+        todos={resultTodos}
         handleCheck={handleCheck}
         handleDelete={handleDelete} />
     </Container>

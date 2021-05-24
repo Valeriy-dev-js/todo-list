@@ -12,8 +12,7 @@ export const ToDoLIstItem = ({ todo, handleDelete, handleCheck}) =>{
         <ListItem> 
             <Grid container
                   direction='row'
-                  alignItems='center'
-                  spacing={1}>
+                  alignItems='center'>
                 <Grid item xs={1}>
                     <Checkbox
                         onChange={() => handleCheck(todo.id)} 

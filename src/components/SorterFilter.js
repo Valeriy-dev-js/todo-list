@@ -1,16 +1,15 @@
 import { Grid, Typography } from "@material-ui/core";
-import React, { useState } from "react";
+import React from "react";
 import { FilterButtons } from "./FilterButtons";
 import { SortButtons } from "./SortButtons";
 
-export const SorterFilter = ( {filterSorter, sorterFilter, setSorterFilter}) => {
-    // const [sorterFilter, setSorterFilter] = useState({ sorterType: true, filterType: 'All' })
+export const SorterFilter = ( { sorterFilter, setSorterFilter}) => {
 
     const handleSorter = (type) => {
         setSorterFilter(prev => ({...prev, sorterType: type}))
     }
 
-    const handleFilter = (type) => setSorterFilter(prev => ({...prev, filterType: type}))
+    const handleFilter = (type) => setSorterFilter(prev => ({sorterType: true, filterType: type}))
 
 
     return (
