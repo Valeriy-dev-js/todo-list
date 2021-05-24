@@ -26,9 +26,11 @@ export const ToDoLIstItem = ({ todo, handleDelete, handleCheck, handleTodoChange
 
     
 
-
+    const styles = {border: '1px solid rgba(0, 0, 0, 0.23)',
+                    borderRadius: '5px',
+                    marginBottom: '10px'}
     return (
-        <ListItem>
+        <ListItem style={styles}>
             <Grid container
                 direction='row'
                 alignItems='center'>

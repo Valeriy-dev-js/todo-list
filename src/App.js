@@ -14,7 +14,6 @@ function App() {
   const [todos, setTodos] = useState(data)
   const [sorterFilter, setSorterFilter] = useState({ sorterType: true, filterType: 'All' })
 
-  console.log(JSON.stringify(todos, null, 2))
 
   //Action functions
   const handleSubmit = (todo) => {
@@ -35,8 +34,6 @@ function App() {
   }
 
   const handleTodoChange = (id, inputValue) => {
-    console.log(id)
-    console.log(inputValue)
     const newTodos = [...todos]
     const index = newTodos.findIndex(todo => todo.id === id)
     newTodos[index].title = inputValue
