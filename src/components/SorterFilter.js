@@ -3,13 +3,17 @@ import React from "react";
 import { FilterButtons } from "./FilterButtons";
 import { SortButtons } from "./SortButtons";
 
-export const SorterFilter = ( { sorterFilter, setSorterFilter}) => {
+export const SorterFilter = ( { sorterFilter, setSorterFilter, setCurrentPage }) => {
 
     const handleSorter = (type) => {
-        setSorterFilter(prev => ({...prev, sorterType: type}))
-    }
+        setSorterFilter(prev => ({...prev, sorterType: type}));
+        setCurrentPage(1);
+    };
 
-    const handleFilter = (type) => setSorterFilter(prev => ({sorterType: true, filterType: type}))
+    const handleFilter = (type) => {
+        setSorterFilter(prev => ({sorterType: true, filterType: type}));
+        setCurrentPage(1);
+    };
 
 
     return (
@@ -32,5 +36,5 @@ export const SorterFilter = ( { sorterFilter, setSorterFilter}) => {
                 </Grid>
             </Grid>
         </Grid>
-    )
-}
+    );
+};

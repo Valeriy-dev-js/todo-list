@@ -1,19 +1,19 @@
-import {  List } from '@material-ui/core';
+import { List } from '@material-ui/core';
 import React from 'react';
 import { ToDoLIstItem } from './ToDoListItem';
 
-export const ToDoList = ({todos, handleDelete, handleCheck, handleTodoChange}) => {            
+export const ToDoList = ({ todos, handleDelete, handleCheck, handleTodoChange }) => {
     return (
-       <List>
-           {todos.map((todo) => (
-               <ToDoLIstItem 
-                    key={todo.id} 
+        <List>
+            {todos.map((todo) => (
+                <ToDoLIstItem
+                    key={todo.id}
                     todo={todo}
-                    handleDelete={handleDelete} 
+                    handleDelete={handleDelete}
                     handleCheck={handleCheck}
                     handleTodoChange={handleTodoChange}
-               />
+                />
             ))}
-       </List>
+        </List>
     );
 };

@@ -4,15 +4,11 @@ import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
 import ArrowUpwardIcon from '@material-ui/icons/ArrowUpward';
 
 export const SortButtons = ({ handleSorter , sorterType}) => {
-
-    // const [sorter, setSorter] = useState(true)
-
     const handleButton = (type) => {
         if(type !== sorterType){
-            handleSorter(type)
-        }   
-    }
-
+            handleSorter(type);
+        }   ;
+    };
 
     return (
         <>
@@ -25,5 +21,5 @@ export const SortButtons = ({ handleSorter , sorterType}) => {
                 <ArrowDownwardIcon />
             </IconButton>
         </>
-    )
-}
+    );
+};

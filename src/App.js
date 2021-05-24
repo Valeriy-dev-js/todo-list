@@ -17,9 +17,6 @@ function App() {
   const [currentPage, setCurrentPage] = useState(1);
   const [postsPerPage] = useState(5);
 
-
-
-
   //Action functions
   const handleSubmit = (todo) => {
     if (todo !== '') {
@@ -49,6 +46,7 @@ function App() {
   const sortFiltTodos = useMemo(() => {
     const iteratingTodos = [...todos];
     const { sorterType, filterType } = sorterFilter;
+
     //Sorting todos by date
     const sortedTodos = iteratingTodos.sort((a, b) => {
       if (sorterType) {
@@ -56,6 +54,7 @@ function App() {
       }
       return a.date - b.date;
     });
+
     //Filtering todos by completed
     const filteredTodos = sortedTodos.filter(item => {
       switch (filterType) {
@@ -70,18 +69,13 @@ function App() {
     return filteredTodos;
   }, [todos, sorterFilter]);
 
+//Paagination logic
   const paginateTodos = useMemo(() => {
     const indexOfLastPost = currentPage * postsPerPage;
     const indexOfFirstPost = indexOfLastPost - postsPerPage;
     const currentPosts = sortFiltTodos.slice(indexOfFirstPost, indexOfLastPost);
     return currentPosts;
   }, [currentPage, postsPerPage, sortFiltTodos]);
-
-
-
-
-
-
 
   return (
     <Container maxWidth='sm'>
@@ -92,7 +86,8 @@ function App() {
       />
       <SorterFilter
         sorterFilter={sorterFilter}
-        setSorterFilter={setSorterFilter} />
+        setSorterFilter={setSorterFilter}
+        setCurrentPage={setCurrentPage} />
       <ToDoList
         todos={paginateTodos}
         handleCheck={handleCheck}
@@ -105,6 +100,6 @@ function App() {
         setCurrentPage={setCurrentPage} />
     </Container>
   );
-}
+};
 
 export default App;

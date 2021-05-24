@@ -2,9 +2,7 @@ import { Button, ButtonGroup } from '@material-ui/core';
 import React from 'react';
 
 export const FilterButtons = ({ handleFilter, filterType }) => {
-
-
-    const buttons = ['All', 'Done', 'Undone']
+    const buttons = ['All', 'Done', 'Undone'];
 
     return (
         <ButtonGroup >
@@ -19,5 +17,5 @@ export const FilterButtons = ({ handleFilter, filterType }) => {
                     }}>{button}</Button>
             ))}
         </ButtonGroup>
-    )
-}
+    );
+};
