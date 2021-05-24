@@ -10,13 +10,13 @@ function App() {
   { id: 2, title: 'Buy', completed: false, date: 2 },
   { id: 3, title: '???', completed: true, date: 1 }];
 
-
-  const [todos, setTodos] = useState([])
+  //State
+  const [todos, setTodos] = useState(data)
   const [sorterFilter, setSorterFilter] = useState({ sorterType: true, filterType: 'All' })
 
-  // const [filterTodos, setFilterTodos] = useState([])
+  console.log(JSON.stringify(todos, null, 2))
 
-
+  //Action functions
   const handleSubmit = (todo) => {
     if (todo !== '') {
       setTodos(prev => [{ id: Date.now(), title: todo.trim(), completed: false, date: Date.now() }, ...prev])
@@ -34,6 +34,16 @@ function App() {
     setTodos(newTodos)
   }
 
+  const handleTodoChange = (id, inputValue) => {
+    console.log(id)
+    console.log(inputValue)
+    const newTodos = [...todos]
+    const index = newTodos.findIndex(todo => todo.id === id)
+    newTodos[index].title = inputValue
+    setTodos(newTodos)
+  }
+
+  //Sorting and Filtering logic
   const resultTodos = useMemo(() => {
 
     const iteratingTodos = [...todos]
@@ -44,7 +54,7 @@ function App() {
         return b.date - a.date
       }
       return a.date - b.date})
-    //Filtering todos
+    //Filtering todos by completed
     const filteredTodos = sortedTodos.filter(item => {
       switch(filterType){
         case 'All':
@@ -79,7 +89,8 @@ function App() {
       <ToDoList
         todos={resultTodos}
         handleCheck={handleCheck}
-        handleDelete={handleDelete} />
+        handleDelete={handleDelete}
+        handleTodoChange={handleTodoChange}/>
     </Container>
   );
 }
