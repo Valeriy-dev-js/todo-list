@@ -1,23 +1,37 @@
-import { Button, ButtonGroup, Grid } from '@material-ui/core';
+import { Button, ButtonGroup } from '@material-ui/core';
 import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
-import React, { useRef } from 'react';
+import React from 'react';
 
-export const Pagination = () => {
-    const pageNumbers = []
+export const Pagination = ({ totalPosts, postsPerPage , currentPage, setCurrentPage}) => {
+    const pageNumbers = [];
     for (let i = 1; i <= Math.ceil(totalPosts / postsPerPage); i++) {
         pageNumbers.push(i);
-      }
+    };
 
-    return(
+    return (
         <ButtonGroup fullWidth >
-            <Button >
+            <Button 
+                color='primary'
+                onClick={() => setCurrentPage(1)}>
+                <ArrowBackIosIcon />
                 <ArrowBackIosIcon />
             </Button>
-            <Button>1</Button>
-            <Button>
+            {pageNumbers.map(number => (
+                <Button 
+                    color='primary'
+                    key={number} 
+                    variant={number === currentPage && 'contained'}
+                    onClick={() => setCurrentPage(number)}>
+                    {number}
+                </Button>
+            ))}
+            <Button 
+                color='primary'
+                onClick={() => setCurrentPage(pageNumbers.length)}>
+                <ArrowForwardIosIcon />
                 <ArrowForwardIosIcon />
             </Button>
         </ButtonGroup >
-    )
-}
+    );
+};

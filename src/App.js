@@ -1,5 +1,5 @@
 import { Container, Typography } from '@material-ui/core';
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import './App.css';
 import { Pagination } from './components/Pagination';
 import { SorterFilter } from './components/SorterFilter';
@@ -15,9 +15,9 @@ function App() {
   const [todos, setTodos] = useState(data);
   const [sorterFilter, setSorterFilter] = useState({ sorterType: true, filterType: 'All' });
   const [currentPage, setCurrentPage] = useState(1);
-  const [postPerPage] = useState(5);
-  
-  
+  const [postsPerPage] = useState(5);
+
+
 
 
   //Action functions
@@ -51,13 +51,14 @@ function App() {
     const { sorterType, filterType } = sorterFilter;
     //Sorting todos by date
     const sortedTodos = iteratingTodos.sort((a, b) => {
-      if (sorterType){
+      if (sorterType) {
         return b.date - a.date;
       }
-      return a.date - b.date});
+      return a.date - b.date;
+    });
     //Filtering todos by completed
     const filteredTodos = sortedTodos.filter(item => {
-      switch(filterType){
+      switch (filterType) {
         case 'All':
           return item;
         case 'Done':
@@ -70,12 +71,11 @@ function App() {
   }, [todos, sorterFilter]);
 
   const paginateTodos = useMemo(() => {
-    const indexOfLastPost = currentPage * postPerPage;
-    const indexOfFirstPost = indexOfLastPost - postPerPage;
+    const indexOfLastPost = currentPage * postsPerPage;
+    const indexOfFirstPost = indexOfLastPost - postsPerPage;
     const currentPosts = sortFiltTodos.slice(indexOfFirstPost, indexOfLastPost);
-    return currentPosts
-    console.log(JSON.stringify(currentPosts, null, 2));
-  },[currentPage, todos, sorterFilter]);
+    return currentPosts;
+  }, [currentPage, postsPerPage, sortFiltTodos]);
 
 
 
@@ -97,8 +97,12 @@ function App() {
         todos={paginateTodos}
         handleCheck={handleCheck}
         handleDelete={handleDelete}
-        handleTodoChange={handleTodoChange}/>
-      <Pagination />
+        handleTodoChange={handleTodoChange} />
+      <Pagination
+        totalPosts={sortFiltTodos.length}
+        postsPerPage={postsPerPage}
+        currentPage={currentPage}
+        setCurrentPage={setCurrentPage} />
     </Container>
   );
 }
