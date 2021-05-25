@@ -1,87 +1,95 @@
-import { Container, Typography } from '@material-ui/core';
-import { useEffect, useMemo, useState } from 'react';
+import { CircularProgress, Container, Grid, Snackbar, Typography } from '@material-ui/core';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import './App.css';
 import { Pagination } from './components/Pagination';
 import { SorterFilter } from './components/SorterFilter';
 import { ToDoInput } from './components/ToDoInput';
 import { ToDoList } from './components/ToDoList';
 import axios from 'axios'
+import { Alert } from '@material-ui/lab';
 
 function App() {
+  // const [alert, setAlert] = useState({})
+  axios.interceptors.response.use(null, error => {
+    console.log('STATUS', error.response.status);
+    console.log('DATA', error.response.data.message);
+    return Promise.reject(error)
+  })
+
   const POSTurl = 'https://todo-api-learning.herokuapp.com/v1/task/3'
-  
   //State
   const [todos, setTodos] = useState([]);
   const [sorterFilter, setSorterFilter] = useState({ sorterType: true, filterType: 'All' });
   const [currentPage, setCurrentPage] = useState(1);
   const [postsPerPage] = useState(5);
-//Fetch todos from API
-const fetchTodos = async () => {
-  const res = await axios.get(sortFilter());
-  setTodos(res.data);
-}
-
-  useEffect(() => {
-    fetchTodos()
-  }, [sorterFilter])
-  
-//creating GETurl
-  const sortFilter = () => {
-    const {sorterType, filterType} = sorterFilter;
-//Sort param
-    const date = sorterType 
-    ? 'desc'
-    : 'asc'
-//Filter Param
-    let filter 
+  const [isLoading, setIsLoading] = useState(true)
+  //Fetch todos from API
+  const fetchTodos = useCallback(async () => {
+    //creating GETurl
+    const { sorterType, filterType } = sorterFilter;
+    //Sort param
+    const date = sorterType
+      ? 'desc'
+      : 'asc'
+    //Filter Param
+    let filter
     switch (filterType) {
       case 'All':
         filter = '';
         break;
       case 'Done':
         filter = 'filterBy=done&';
-        break;  
+        break;
       default:
         filter = 'filterBy=undone&'
     }
     const URL = `https://todo-api-learning.herokuapp.com/v1/tasks/3?${filter}order=${date}`
-    return URL
-  }
-//Action functions
-//Add Todo
+
+    const res = await axios.get(URL).then(setTimeout(() => {
+      setTodos(res.data);
+      setIsLoading(false);
+    }, 1000));
+  }, [sorterFilter])
+
+  useEffect(() => {
+    fetchTodos()
+  }, [fetchTodos])
+
+  //Action functions
+  //Add Todo
   const handleSubmit = async (todo) => {
-      await axios.post(POSTurl,
-        {
-          "name": todo,
-          "done": false
-        });
-      await fetchTodos();
+    await axios.post(POSTurl,
+      {
+        "name": todo,
+        "done": false
+      });
+    await fetchTodos();
   };
-//Delete Todo
+  //Delete Todo
   const handleDelete = async (id) => {
     await axios.delete(`${POSTurl}/${id}`);
     await fetchTodos();
   };
-//Check Todo
+  //Check Todo
   const handleCheck = async (todo) => {
     await axios.patch(`${POSTurl}/${todo.uuid}`,
-    {
-      "name": todo.name,
-      "done": !todo.done
-    });
+      {
+        "name": todo.name,
+        "done": !todo.done
+      });
     await fetchTodos();
   };
-//Change Todo
+  //Change Todo
   const handleTodoChange = async (todo, inputValue) => {
     await axios.patch(`${POSTurl}/${todo.uuid}`,
-    {
-      "name": inputValue,
-      "done": todo.done
-    });
+      {
+        "name": inputValue,
+        "done": todo.done
+      });
     await fetchTodos();
   };
 
-//Paagination logic
+  //Paagination logic
   const paginateTodos = useMemo(() => {
     const APItodos = [...todos]
     const indexOfLastPost = currentPage * postsPerPage;
@@ -101,18 +109,30 @@ const fetchTodos = async () => {
         sorterFilter={sorterFilter}
         setSorterFilter={setSorterFilter}
         setCurrentPage={setCurrentPage} />
-      <ToDoList
-        todos={paginateTodos}
-        handleCheck={handleCheck}
-        handleDelete={handleDelete}
-        handleTodoChange={handleTodoChange} />
-      {(todos.length > 5) &&
+      {!isLoading &&
+        <ToDoList
+          todos={paginateTodos}
+          handleCheck={handleCheck}
+          handleDelete={handleDelete}
+          handleTodoChange={handleTodoChange} />}
+      {(todos.length > 5 && !isLoading) &&
         <Pagination
-        totalPosts={todos.length}
-        postsPerPage={postsPerPage}
-        currentPage={currentPage}
-        setCurrentPage={setCurrentPage} />
-        }
+          totalPosts={todos.length}
+          postsPerPage={postsPerPage}
+          currentPage={currentPage}
+          setCurrentPage={setCurrentPage} />
+      }
+      {isLoading &&
+        <Grid container alignItems='center' direction='column'>
+          <Grid item><CircularProgress/></Grid>
+        </Grid>
+      }
+      {/* <Snackbar open={alert.open} autoHideDuration={2000}>
+        <Alert severity="error">
+          {`Status: ${alert.status} 
+            Message: ${alert.message}`}
+        </Alert>
+      </Snackbar> */}
     </Container>
   );
 };
