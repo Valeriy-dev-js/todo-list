@@ -12,35 +12,47 @@ function App() {
   { id: 2, title: 'Buy', completed: false, date: 2 },
   { id: 3, title: '???', completed: true, date: 1 }];
 
-
-  useEffect(() => {
-    const fetchTodos = async () => {
-      const res = await axios.get('https://todo-api-learning.herokuapp.com/v1/tasks/3')
-      console.log(JSON.stringify(res.data, null, 2));
-      setTodos(res.data)
-    }
-    fetchTodos()
-  }, [])
+  const GETurl = 'https://todo-api-learning.herokuapp.com/v1/tasks/3?order=desc';
+  const POSTurl = 'https://todo-api-learning.herokuapp.com/v1/task/3'
 
 
-
-
-
+  
+  
+  
+  
+  
   //State
   const [todos, setTodos] = useState([]);
+  const [postTodo, setPostTodos] = useState('')
   const [sorterFilter, setSorterFilter] = useState({ sorterType: true, filterType: 'All' });
   const [currentPage, setCurrentPage] = useState(1);
   const [postsPerPage] = useState(5);
 
+  useEffect(() => {
+    const fetchTodos = async () => {
+      const res = await axios.get(GETurl)
+      setTodos(res.data)
+    }
+    fetchTodos()
+  }, [postTodo])
+
   //Action functions
-  const handleSubmit = (todo) => {
+  const handleSubmit = async (todo) => {
     if (todo !== '') {
-      setTodos(prev => [{ id: Date.now(), title: todo.trim(), completed: false, date: Date.now() }, ...prev])
+      await axios.post(POSTurl,
+        {
+          "name": todo,
+          "done": false
+        })
+        setPostTodos(todo)
     };
   };
 
-  const handleDelete = (id) => {
-    setTodos(prev => prev.filter(task => task.id !== id));
+  const handleDelete = async (id) => {
+    // console.log(`&{POSTurl}/${id}`);
+    await axios.delete(`${POSTurl}/${id}`)
+    setPostTodos(id)
+
   };
 
   const handleCheck = (id) => {

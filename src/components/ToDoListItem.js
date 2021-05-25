@@ -63,7 +63,7 @@ export const ToDoLIstItem = ({ todo, handleDelete, handleCheck, handleTodoChange
                     <ListItemText primary={time} />
                 </Grid>
                 <Grid item xs={1}>
-                    <IconButton onClick={() => handleDelete(todo.id)} >
+                    <IconButton onClick={() => handleDelete(todo.uuid)} >
                         <DeleteIcon />
                     </IconButton>
                 </Grid>
