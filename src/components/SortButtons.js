@@ -7,7 +7,7 @@ export const SortButtons = ({ handleSorter , sorterType}) => {
     const handleButton = (type) => {
         if(type !== sorterType){
             handleSorter(type);
-        }   ;
+        };
     };
 
     return (

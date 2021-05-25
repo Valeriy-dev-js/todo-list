@@ -3,9 +3,7 @@ import React, { useState } from "react";
 
 export const ToDoInput = ({ handleSubmit }) => {
     const [todo, setTodo] = useState('');
-    // const handleChange = ({ target }) => {
-    //     setTodo(target.value);
-    // };
+    
     const pressEnter = async (event) => {
         if (event.key === 'Enter') {
             event.preventDefault();
@@ -13,10 +11,6 @@ export const ToDoInput = ({ handleSubmit }) => {
             setTodo('');
         };
     };
-
-    // const setPost async = () => {
-    //     await 
-    // }
 
     return (
         <TextField

@@ -22,7 +22,7 @@ function App() {
   const [sorterFilter, setSorterFilter] = useState({ sorterType: true, filterType: 'All' });
   const [currentPage, setCurrentPage] = useState(1);
   const [postsPerPage] = useState(5);
-
+//Fetch todos from API
   useEffect(() => {
     fetchTodos()
   }, [sorterFilter])
@@ -31,16 +31,14 @@ function App() {
     const res = await axios.get(sortFilter());
     setTodos(res.data);
   }
-
+//creating GETurl
   const sortFilter = () => {
-    //order= desc asc
-    //filterBy= done undone
-    //?
-    // https://todo-api-learning.herokuapp.com/v1/tasks/3?filterBy=done&order=desc
     const {sorterType, filterType} = sorterFilter;
+//Sort param
     const date = sorterType 
     ? 'desc'
     : 'asc'
+//Filter Param
     let filter 
     switch (filterType) {
       case 'All':
@@ -55,39 +53,38 @@ function App() {
     const URL = `https://todo-api-learning.herokuapp.com/v1/tasks/3?${filter}order=${date}`
     return URL
   }
-  //Action functions
+//Action functions
+//Add Todo
   const handleSubmit = async (todo) => {
       await axios.post(POSTurl,
         {
           "name": todo,
           "done": false
-        })
-      await fetchTodos()
+        });
+      await fetchTodos();
   };
-
+//Delete Todo
   const handleDelete = async (id) => {
-    await axios.delete(`${POSTurl}/${id}`)
-    await fetchTodos()
+    await axios.delete(`${POSTurl}/${id}`);
+    await fetchTodos();
   };
-
+//Check Todo
   const handleCheck = async (todo) => {
     await axios.patch(`${POSTurl}/${todo.uuid}`,
     {
       "name": todo.name,
       "done": !todo.done
-    }
-    )
-    await fetchTodos()
+    });
+    await fetchTodos();
   };
-
+//Change Todo
   const handleTodoChange = async (todo, inputValue) => {
     await axios.patch(`${POSTurl}/${todo.uuid}`,
     {
       "name": inputValue,
       "done": todo.done
-    }
-    )
-    await fetchTodos()
+    });
+    await fetchTodos();
   };
 
 //Paagination logic
