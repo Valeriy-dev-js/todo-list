@@ -11,7 +11,7 @@ export const SorterFilter = ( { sorterFilter, setSorterFilter, setCurrentPage })
     };
 
     const handleFilter = (type) => {
-        setSorterFilter(prev => ({sorterType: true, filterType: type}));
+        setSorterFilter({sorterType: true, filterType: type});
         setCurrentPage(1);
     };
 

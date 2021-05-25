@@ -18,10 +18,8 @@ export const ToDoLIstItem = ({ todo, handleDelete, handleCheck, handleTodoChange
     const handleKeyDown = async (todo, e) => {
         if (e.key === 'Enter') {
             e.preventDefault();
-            if(inputValue.length > 1){
-                await handleTodoChange(todo, inputValue);
-                setToggleInput(false);
-            };
+            await handleTodoChange(todo, inputValue);
+            setToggleInput(false);  
         };
         if (e.key === 'Escape') {
             setToggleInput(false);
