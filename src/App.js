@@ -8,14 +8,7 @@ import { ToDoList } from './components/ToDoList';
 import axios from 'axios'
 
 function App() {
-  const GETurl = 'https://todo-api-learning.herokuapp.com/v1/tasks/3?order=desc';
   const POSTurl = 'https://todo-api-learning.herokuapp.com/v1/task/3'
-
-
-  
-  
-  
-  
   
   //State
   const [todos, setTodos] = useState([]);
@@ -23,14 +16,15 @@ function App() {
   const [currentPage, setCurrentPage] = useState(1);
   const [postsPerPage] = useState(5);
 //Fetch todos from API
+const fetchTodos = async () => {
+  const res = await axios.get(sortFilter());
+  setTodos(res.data);
+}
+
   useEffect(() => {
     fetchTodos()
   }, [sorterFilter])
   
-  const fetchTodos = async () => {
-    const res = await axios.get(sortFilter());
-    setTodos(res.data);
-  }
 //creating GETurl
   const sortFilter = () => {
     const {sorterType, filterType} = sorterFilter;

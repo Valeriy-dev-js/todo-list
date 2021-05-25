@@ -11,7 +11,7 @@ const styles = {
 };
 
 export const ToDoLIstItem = ({ todo, handleDelete, handleCheck, handleTodoChange }) => {
-    const time = 123
+    const time = todo.createdAt.match(/\d+.\d+.\d+/s)[0];
     const [toggleInput, setToggleInput] = useState(false);
     const [inputValue, setInputValue] = useState(todo.name);
 
