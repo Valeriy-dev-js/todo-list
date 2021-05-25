@@ -58,39 +58,40 @@ function App() {
   };
 
   //Sorting and Filtering logic
-  const sortFiltTodos = useMemo(() => {
-    const iteratingTodos = [...todos];
-    const { sorterType, filterType } = sorterFilter;
+  // const sortFiltTodos = useMemo(() => {
+  //   const iteratingTodos = [...todos];
+  //   const { sorterType, filterType } = sorterFilter;
 
-    //Sorting todos by date
-    const sortedTodos = iteratingTodos.sort((a, b) => {
-      if (sorterType) {
-        return b.date - a.date;
-      }
-      return a.date - b.date;
-    });
+  //   //Sorting todos by date
+  //   const sortedTodos = iteratingTodos.sort((a, b) => {
+  //     if (sorterType) {
+  //       return b.date - a.date;
+  //     }
+  //     return a.date - b.date;
+  //   });
 
-    //Filtering todos by completed
-    const filteredTodos = sortedTodos.filter(item => {
-      switch (filterType) {
-        case 'All':
-          return item;
-        case 'Done':
-          return item.completed === true;
-        default:
-          return item.completed === false;
-      }
-    })
-    return filteredTodos;
-  }, [todos, sorterFilter]);
+  //   //Filtering todos by completed
+  //   const filteredTodos = sortedTodos.filter(item => {
+  //     switch (filterType) {
+  //       case 'All':
+  //         return item;
+  //       case 'Done':
+  //         return item.completed === true;
+  //       default:
+  //         return item.completed === false;
+  //     }
+  //   })
+  //   return filteredTodos;
+  // }, [todos, sorterFilter]);
 
 //Paagination logic
   const paginateTodos = useMemo(() => {
+    const APItodos = [...todos]
     const indexOfLastPost = currentPage * postsPerPage;
     const indexOfFirstPost = indexOfLastPost - postsPerPage;
-    const currentPosts = sortFiltTodos.slice(indexOfFirstPost, indexOfLastPost);
+    const currentPosts = APItodos.slice(indexOfFirstPost, indexOfLastPost);
     return currentPosts;
-  }, [currentPage, postsPerPage, sortFiltTodos]);
+  }, [currentPage, postsPerPage, todos]);
 
   return (
     <Container maxWidth='sm'>
@@ -104,13 +105,13 @@ function App() {
         setSorterFilter={setSorterFilter}
         setCurrentPage={setCurrentPage} />
       <ToDoList
-        todos={todos}
+        todos={paginateTodos}
         handleCheck={handleCheck}
         handleDelete={handleDelete}
         handleTodoChange={handleTodoChange} />
-      {(sortFiltTodos.length > 5) &&
+      {(todos.length > 5) &&
         <Pagination
-        totalPosts={sortFiltTodos.length}
+        totalPosts={todos.length}
         postsPerPage={postsPerPage}
         currentPage={currentPage}
         setCurrentPage={setCurrentPage} />

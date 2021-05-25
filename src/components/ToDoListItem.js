@@ -13,8 +13,6 @@ const styles = {
 export const ToDoLIstItem = ({ todo, handleDelete, handleCheck, handleTodoChange }) => {
     
     // const time = new Date(todo.date).toLocaleString().match(/\d+.\d+.\d{4}/s)[0];
-    console.log(todo.createdAt);
-    console.log(new Date().toLocaleString());
     const time = 123
     const [toggleInput, setToggleInput] = useState(false);
     const [inputValue, setInputValue] = useState(todo.title);
