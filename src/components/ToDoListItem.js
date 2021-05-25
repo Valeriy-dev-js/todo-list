@@ -11,8 +11,11 @@ const styles = {
 };
 
 export const ToDoLIstItem = ({ todo, handleDelete, handleCheck, handleTodoChange }) => {
-
-    const time = new Date(todo.date).toLocaleString().match(/\d+.\d+.\d{4}/s)[0];
+    
+    // const time = new Date(todo.date).toLocaleString().match(/\d+.\d+.\d{4}/s)[0];
+    console.log(todo.createdAt);
+    console.log(new Date().toLocaleString());
+    const time = 123
     const [toggleInput, setToggleInput] = useState(false);
     const [inputValue, setInputValue] = useState(todo.title);
 
@@ -37,8 +40,8 @@ export const ToDoLIstItem = ({ todo, handleDelete, handleCheck, handleTodoChange
                 alignItems='center'>
                 <Grid item xs={1}>
                     <Checkbox
-                        onChange={() => handleCheck(todo.id)}
-                        checked={todo.completed}
+                        onChange={() => handleCheck(todo.uuid)}
+                        checked={todo.done}
                         color='primary' icon={<RadioButtonUncheckedIcon />}
                         checkedIcon={<CheckCircleIcon />}
                     />
@@ -53,7 +56,7 @@ export const ToDoLIstItem = ({ todo, handleDelete, handleCheck, handleTodoChange
                             autoFocus={true}
                             onChange={e => setInputValue(e.target.value)}
                             onKeyDown={e => handleKeyDown(todo.id, e)} />
-                        : <ListItemText primary={inputValue}
+                        : <ListItemText primary={todo.name}
                             style={{overflowWrap: 'break-word'}}
                             multiline='true'
                             onClick={() => setToggleInput(true)} />}

@@ -7,7 +7,7 @@ export const ToDoList = ({ todos, handleDelete, handleCheck, handleTodoChange })
         <List>
             {todos.map((todo) => (
                 <ToDoLIstItem
-                    key={todo.id}
+                    key={todo.uuid}
                     todo={todo}
                     handleDelete={handleDelete}
                     handleCheck={handleCheck}

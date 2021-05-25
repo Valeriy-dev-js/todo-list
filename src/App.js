@@ -1,18 +1,33 @@
 import { Container, Typography } from '@material-ui/core';
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import './App.css';
 import { Pagination } from './components/Pagination';
 import { SorterFilter } from './components/SorterFilter';
 import { ToDoInput } from './components/ToDoInput';
 import { ToDoList } from './components/ToDoList';
+import axios from 'axios'
 
 function App() {
   const data = [{ id: 1, title: 'Hello', completed: true, date: 3 },
   { id: 2, title: 'Buy', completed: false, date: 2 },
   { id: 3, title: '???', completed: true, date: 1 }];
 
+
+  useEffect(() => {
+    const fetchTodos = async () => {
+      const res = await axios.get('https://todo-api-learning.herokuapp.com/v1/tasks/3')
+      console.log(JSON.stringify(res.data, null, 2));
+      setTodos(res.data)
+    }
+    fetchTodos()
+  }, [])
+
+
+
+
+
   //State
-  const [todos, setTodos] = useState(data);
+  const [todos, setTodos] = useState([]);
   const [sorterFilter, setSorterFilter] = useState({ sorterType: true, filterType: 'All' });
   const [currentPage, setCurrentPage] = useState(1);
   const [postsPerPage] = useState(5);
@@ -74,7 +89,6 @@ function App() {
     const indexOfLastPost = currentPage * postsPerPage;
     const indexOfFirstPost = indexOfLastPost - postsPerPage;
     const currentPosts = sortFiltTodos.slice(indexOfFirstPost, indexOfLastPost);
-    console.log(currentPosts);
     return currentPosts;
   }, [currentPage, postsPerPage, sortFiltTodos]);
 
@@ -90,11 +104,11 @@ function App() {
         setSorterFilter={setSorterFilter}
         setCurrentPage={setCurrentPage} />
       <ToDoList
-        todos={paginateTodos}
+        todos={todos}
         handleCheck={handleCheck}
         handleDelete={handleDelete}
         handleTodoChange={handleTodoChange} />
-      {(paginateTodos.length > 0) &&
+      {(sortFiltTodos.length > 5) &&
         <Pagination
         totalPosts={sortFiltTodos.length}
         postsPerPage={postsPerPage}
