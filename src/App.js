@@ -23,19 +23,18 @@ function App() {
   
   //State
   const [todos, setTodos] = useState([]);
-  const [postTodo, setPostTodos] = useState('')
   const [sorterFilter, setSorterFilter] = useState({ sorterType: true, filterType: 'All' });
   const [currentPage, setCurrentPage] = useState(1);
   const [postsPerPage] = useState(5);
 
   useEffect(() => {
-    const fetchTodos = async () => {
-      const res = await axios.get(GETurl)
-      setTodos(res.data)
-    }
     fetchTodos()
-  }, [postTodo])
-
+  }, [sorterFilter])
+  
+  const fetchTodos = async () => {
+    const res = await axios.get(GETurl)
+    setTodos(res.data)
+  }
   //Action functions
   const handleSubmit = async (todo) => {
     if (todo !== '') {
@@ -44,14 +43,13 @@ function App() {
           "name": todo,
           "done": false
         })
-        setPostTodos(todo)
+      await fetchTodos()
     };
   };
 
   const handleDelete = async (id) => {
-    // console.log(`&{POSTurl}/${id}`);
     await axios.delete(`${POSTurl}/${id}`)
-    setPostTodos(id)
+    fetchTodos()
 
   };
 
