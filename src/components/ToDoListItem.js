@@ -15,19 +15,19 @@ export const ToDoLIstItem = ({ todo, handleDelete, handleCheck, handleTodoChange
     // const time = new Date(todo.date).toLocaleString().match(/\d+.\d+.\d{4}/s)[0];
     const time = 123
     const [toggleInput, setToggleInput] = useState(false);
-    const [inputValue, setInputValue] = useState(todo.title);
+    const [inputValue, setInputValue] = useState(todo.name);
 
-    const handleKeyDown = (id, e) => {
+    const handleKeyDown = async (todo, e) => {
         if (e.key === 'Enter') {
             e.preventDefault();
-            if(inputValue !== ''){
+            if(inputValue.length > 1){
+                await handleTodoChange(todo, inputValue);
                 setToggleInput(false);
-                handleTodoChange(id, inputValue);
             };
         };
         if (e.key === 'Escape') {
             setToggleInput(false);
-            setInputValue(todo.title);
+            setInputValue(todo.name);
         };
     };
 
@@ -38,9 +38,10 @@ export const ToDoLIstItem = ({ todo, handleDelete, handleCheck, handleTodoChange
                 alignItems='center'>
                 <Grid item xs={1}>
                     <Checkbox
-                        onChange={() => handleCheck(todo.uuid)}
+                        onChange={() => handleCheck(todo)}
                         checked={todo.done}
-                        color='primary' icon={<RadioButtonUncheckedIcon />}
+                        color='primary' 
+                        icon={<RadioButtonUncheckedIcon />}
                         checkedIcon={<CheckCircleIcon />}
                     />
                 </Grid>
@@ -53,7 +54,7 @@ export const ToDoLIstItem = ({ todo, handleDelete, handleCheck, handleTodoChange
                             variant='outlined'
                             autoFocus={true}
                             onChange={e => setInputValue(e.target.value)}
-                            onKeyDown={e => handleKeyDown(todo.id, e)} />
+                            onKeyDown={e => handleKeyDown(todo, e)} />
                         : <ListItemText primary={todo.name}
                             style={{overflowWrap: 'break-word'}}
                             multiline='true'

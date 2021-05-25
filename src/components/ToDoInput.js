@@ -6,10 +6,10 @@ export const ToDoInput = ({ handleSubmit }) => {
     // const handleChange = ({ target }) => {
     //     setTodo(target.value);
     // };
-    const pressEnter = (event) => {
+    const pressEnter = async (event) => {
         if (event.key === 'Enter') {
             event.preventDefault();
-            handleSubmit(todo);
+            await handleSubmit(todo);
             setTodo('');
         };
     };

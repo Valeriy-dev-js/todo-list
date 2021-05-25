@@ -8,10 +8,6 @@ import { ToDoList } from './components/ToDoList';
 import axios from 'axios'
 
 function App() {
-  const data = [{ id: 1, title: 'Hello', completed: true, date: 3 },
-  { id: 2, title: 'Buy', completed: false, date: 2 },
-  { id: 3, title: '???', completed: true, date: 1 }];
-
   const GETurl = 'https://todo-api-learning.herokuapp.com/v1/tasks/3?order=desc';
   const POSTurl = 'https://todo-api-learning.herokuapp.com/v1/task/3'
 
@@ -32,67 +28,67 @@ function App() {
   }, [sorterFilter])
   
   const fetchTodos = async () => {
-    const res = await axios.get(GETurl)
-    setTodos(res.data)
+    const res = await axios.get(sortFilter());
+    setTodos(res.data);
+  }
+
+  const sortFilter = () => {
+    //order= desc asc
+    //filterBy= done undone
+    //?
+    // https://todo-api-learning.herokuapp.com/v1/tasks/3?filterBy=done&order=desc
+    const {sorterType, filterType} = sorterFilter;
+    const date = sorterType 
+    ? 'desc'
+    : 'asc'
+    let filter 
+    switch (filterType) {
+      case 'All':
+        filter = '';
+        break;
+      case 'Done':
+        filter = 'filterBy=done&';
+        break;  
+      default:
+        filter = 'filterBy=undone&'
+    }
+    const URL = `https://todo-api-learning.herokuapp.com/v1/tasks/3?${filter}order=${date}`
+    return URL
   }
   //Action functions
   const handleSubmit = async (todo) => {
-    if (todo !== '') {
       await axios.post(POSTurl,
         {
           "name": todo,
           "done": false
         })
       await fetchTodos()
-    };
   };
 
   const handleDelete = async (id) => {
     await axios.delete(`${POSTurl}/${id}`)
-    fetchTodos()
-
+    await fetchTodos()
   };
 
-  const handleCheck = (id) => {
-    const newTodos = [...todos];
-    const index = newTodos.findIndex(todo => todo.id === id);
-    newTodos[index].completed = !newTodos[index].completed;
-    setTodos(newTodos);
+  const handleCheck = async (todo) => {
+    await axios.patch(`${POSTurl}/${todo.uuid}`,
+    {
+      "name": todo.name,
+      "done": !todo.done
+    }
+    )
+    await fetchTodos()
   };
 
-  const handleTodoChange = (id, inputValue) => {
-    const newTodos = [...todos];
-    const index = newTodos.findIndex(todo => todo.id === id);
-    newTodos[index].title = inputValue;
-    setTodos(newTodos);
+  const handleTodoChange = async (todo, inputValue) => {
+    await axios.patch(`${POSTurl}/${todo.uuid}`,
+    {
+      "name": inputValue,
+      "done": todo.done
+    }
+    )
+    await fetchTodos()
   };
-
-  //Sorting and Filtering logic
-  // const sortFiltTodos = useMemo(() => {
-  //   const iteratingTodos = [...todos];
-  //   const { sorterType, filterType } = sorterFilter;
-
-  //   //Sorting todos by date
-  //   const sortedTodos = iteratingTodos.sort((a, b) => {
-  //     if (sorterType) {
-  //       return b.date - a.date;
-  //     }
-  //     return a.date - b.date;
-  //   });
-
-  //   //Filtering todos by completed
-  //   const filteredTodos = sortedTodos.filter(item => {
-  //     switch (filterType) {
-  //       case 'All':
-  //         return item;
-  //       case 'Done':
-  //         return item.completed === true;
-  //       default:
-  //         return item.completed === false;
-  //     }
-  //   })
-  //   return filteredTodos;
-  // }, [todos, sorterFilter]);
 
 //Paagination logic
   const paginateTodos = useMemo(() => {
