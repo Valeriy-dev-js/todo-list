@@ -6,13 +6,6 @@ const axiosConfig = axios.create({
 });
 
 
-axiosConfig.interceptors.response.use(null, error => {
-    console.log('STATUS', error.response.status);
-    console.log('DATA', error.response.data.message);
-    return Promise.reject(error)
-  })
-
-
 export default axiosConfig;
 
 

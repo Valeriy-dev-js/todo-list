@@ -1,4 +1,4 @@
-import { CircularProgress, Container, Grid, Snackbar, Typography } from '@material-ui/core';
+import { CircularProgress, Container, Grid, Typography } from '@material-ui/core';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import './App.css';
 import { Pagination } from './components/Pagination';
@@ -6,12 +6,9 @@ import { SorterFilter } from './components/SorterFilter';
 import { ToDoInput } from './components/ToDoInput';
 import { ToDoList } from './components/ToDoList';
 import axios from './axiosComfig'
-import { Alert } from '@material-ui/lab';
 
 function App() {
-  // const [alert, setAlert] = useState({})
-  
-  const POSTurl = 'https://todo-api-learning.herokuapp.com/v1/task/3'
+  const POSTurl = '/v1/task/3'
   //State
   const [todos, setTodos] = useState([]);
   const [sorterFilter, setSorterFilter] = useState({ sorterType: true, filterType: 'All' });
@@ -20,37 +17,34 @@ function App() {
   const [isLoading, setIsLoading] = useState(true)
   //Fetch todos from API
 
-  useEffect(() => {
-    const fetchTodos = async () => {
-      //creating GETurl
-      const { sorterType, filterType } = sorterFilter;
-      //Sort param
-      const date = sorterType
-      ? 'desc'
-      : 'asc'
-      //Filter Param
-      let filter
-      switch (filterType) {
-        case 'All':
-          filter = '';
-          break;
-        case 'Done':
-          filter = 'filterBy=done&';
-          break;
-          default:
-            filter = 'filterBy=undone&'
-      }
-      const URL = `/v1/tasks/3?${filter}order=${date}`
-      
-      const res = await axios.get(URL)
-      setTodos(res.data);
-      setIsLoading(false);
+  const fetchTodos = useCallback(async () => {
+    //creating GETurl
+    const { sorterType, filterType } = sorterFilter;
+    //Sort param
+    const date = sorterType
+    ? 'desc'
+    : 'asc'
+    //Filter Param
+    let filter
+    switch (filterType) {
+      case 'All':
+        filter = '';
+        break;
+      case 'Done':
+        filter = 'filterBy=done&';
+        break;
+        default:
+          filter = 'filterBy=undone&'
     }
-    fetchTodos()
-  
-  }, [sorterFilter])
+    const URL = `/v1/tasks/3?${filter}order=${date}`
+    const res = await axios.get(URL)
+    setTodos(res.data);
+    setIsLoading(false);
+  },[sorterFilter])
 
-  
+  useEffect(() => {
+      fetchTodos()
+  }, [fetchTodos]) 
 
   //Action functions
   //Add Todo
@@ -60,11 +54,12 @@ function App() {
         "name": todo,
         "done": false
       });
-      // await fetchTodos();
+      await fetchTodos();
     };
     //Delete Todo
     const handleDelete = async (id) => {
       await axios.delete(`${POSTurl}/${id}`);
+      await fetchTodos();
     };
     //Check Todo
     const handleCheck = async (todo) => {
@@ -73,6 +68,7 @@ function App() {
         "name": todo.name,
         "done": !todo.done
       });
+      await fetchTodos();
     };
   //Change Todo
   const handleTodoChange = async (todo, inputValue) => {
@@ -81,6 +77,7 @@ function App() {
         "name": inputValue,
         "done": todo.done
       });
+      await fetchTodos();
   };
 
   //Paagination logic
@@ -121,12 +118,7 @@ function App() {
           <Grid item><CircularProgress/></Grid>
         </Grid>
       }
-      {/* <Snackbar open={alert.open} autoHideDuration={2000}>
-        <Alert severity="error">
-          {`Status: ${alert.status} 
-            Message: ${alert.message}`}
-        </Alert>
-      </Snackbar> */}
+
     </Container>
   );
 };
