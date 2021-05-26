@@ -5,17 +5,12 @@ import { Pagination } from './components/Pagination';
 import { SorterFilter } from './components/SorterFilter';
 import { ToDoInput } from './components/ToDoInput';
 import { ToDoList } from './components/ToDoList';
-import axios from 'axios'
+import axios from './axiosComfig'
 import { Alert } from '@material-ui/lab';
 
 function App() {
   // const [alert, setAlert] = useState({})
-  axios.interceptors.response.use(null, error => {
-    console.log('STATUS', error.response.status);
-    console.log('DATA', error.response.data.message);
-    return Promise.reject(error)
-  })
-
+  
   const POSTurl = 'https://todo-api-learning.herokuapp.com/v1/task/3'
   //State
   const [todos, setTodos] = useState([]);
@@ -24,36 +19,38 @@ function App() {
   const [postsPerPage] = useState(5);
   const [isLoading, setIsLoading] = useState(true)
   //Fetch todos from API
-  const fetchTodos = useCallback(async () => {
-    //creating GETurl
-    const { sorterType, filterType } = sorterFilter;
-    //Sort param
-    const date = sorterType
-      ? 'desc'
-      : 'asc'
-    //Filter Param
-    let filter
-    switch (filterType) {
-      case 'All':
-        filter = '';
-        break;
-      case 'Done':
-        filter = 'filterBy=done&';
-        break;
-      default:
-        filter = 'filterBy=undone&'
-    }
-    const URL = `https://todo-api-learning.herokuapp.com/v1/tasks/3?${filter}order=${date}`
-
-    const res = await axios.get(URL).then(setTimeout(() => {
-      setTodos(res.data);
-      setIsLoading(false);
-    }, 1000));
-  }, [sorterFilter])
 
   useEffect(() => {
+    const fetchTodos = async () => {
+      //creating GETurl
+      const { sorterType, filterType } = sorterFilter;
+      //Sort param
+      const date = sorterType
+      ? 'desc'
+      : 'asc'
+      //Filter Param
+      let filter
+      switch (filterType) {
+        case 'All':
+          filter = '';
+          break;
+        case 'Done':
+          filter = 'filterBy=done&';
+          break;
+          default:
+            filter = 'filterBy=undone&'
+      }
+      const URL = `/v1/tasks/3?${filter}order=${date}`
+      
+      const res = await axios.get(URL)
+      setTodos(res.data);
+      setIsLoading(false);
+    }
     fetchTodos()
-  }, [fetchTodos])
+  
+  }, [sorterFilter])
+
+  
 
   //Action functions
   //Add Todo
@@ -63,22 +60,20 @@ function App() {
         "name": todo,
         "done": false
       });
-    await fetchTodos();
-  };
-  //Delete Todo
-  const handleDelete = async (id) => {
-    await axios.delete(`${POSTurl}/${id}`);
-    await fetchTodos();
-  };
-  //Check Todo
-  const handleCheck = async (todo) => {
-    await axios.patch(`${POSTurl}/${todo.uuid}`,
+      // await fetchTodos();
+    };
+    //Delete Todo
+    const handleDelete = async (id) => {
+      await axios.delete(`${POSTurl}/${id}`);
+    };
+    //Check Todo
+    const handleCheck = async (todo) => {
+      await axios.patch(`${POSTurl}/${todo.uuid}`,
       {
         "name": todo.name,
         "done": !todo.done
       });
-    await fetchTodos();
-  };
+    };
   //Change Todo
   const handleTodoChange = async (todo, inputValue) => {
     await axios.patch(`${POSTurl}/${todo.uuid}`,
@@ -86,7 +81,6 @@ function App() {
         "name": inputValue,
         "done": todo.done
       });
-    await fetchTodos();
   };
 
   //Paagination logic
