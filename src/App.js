@@ -1,4 +1,4 @@
-import { CircularProgress, Container, Grid, Typography } from '@material-ui/core';
+import { CircularProgress, Container, Grid, Snackbar, Typography } from '@material-ui/core';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import './App.css';
 import { Pagination } from './components/Pagination';
@@ -6,15 +6,26 @@ import { SorterFilter } from './components/SorterFilter';
 import { ToDoInput } from './components/ToDoInput';
 import { ToDoList } from './components/ToDoList';
 import axios from './axiosComfig'
+import { Alert } from '@material-ui/lab';
 
-function App() {
-  const POSTurl = '/v1/task/3'
+function App( { alert } ) {
   //State
+  console.log(alert);
+  const [alertNotification, setAlertNotification] = useState()
+  const POSTurl = '/v1/task/3'
+
   const [todos, setTodos] = useState([]);
   const [sorterFilter, setSorterFilter] = useState({ sorterType: true, filterType: 'All' });
   const [currentPage, setCurrentPage] = useState(1);
   const [postsPerPage] = useState(5);
   const [isLoading, setIsLoading] = useState(true)
+
+  useEffect(() => {
+    setAlertNotification(alert)
+  },[alert])
+
+  console.log(alertNotification);
+
   //Fetch todos from API
 
   const fetchTodos = useCallback(async () => {
@@ -118,6 +129,12 @@ function App() {
           <Grid item><CircularProgress/></Grid>
         </Grid>
       }
+          {alert.open && <Snackbar open={alert.open} autoHideDuration={2000}>
+      <Alert severity="error">
+        {`Status: ${alert.status} 
+            Message: ${alert.message}`}
+      </Alert>
+    </Snackbar>}
 
     </Container>
   );

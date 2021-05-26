@@ -8,23 +8,22 @@ import { Alert } from '@material-ui/lab';
 import axios from './axiosComfig'
 
 
+let alert = { open: false, status: '', message: '' }
+
 
 axios.interceptors.response.use(null, error => {
+  alert = { open: true, status: error.response.status, message: error.response.data.message }
+  console.log(alert);
   console.log('STATUS', error.response.status);
   console.log('DATA', error.response.data.message);
   return Promise.reject(error)
 });
 
+console.log(alert)
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
-          <Snackbar open={alert.open} autoHideDuration={2000}>
-        <Alert severity="error">
-          {`Status: ${alert.status} 
-            Message: ${alert.message}`}
-        </Alert>
-      </Snackbar>
+    <App alert={alert}/>
   </React.StrictMode>,
   document.getElementById('root')
 );

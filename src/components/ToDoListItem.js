@@ -19,7 +19,7 @@ export const ToDoLIstItem = ({ todo, handleDelete, handleCheck, handleTodoChange
         if (e.key === 'Enter') {
             e.preventDefault();
             await handleTodoChange(todo, inputValue);
-            setToggleInput(false);  
+            setToggleInput(false);
         };
         if (e.key === 'Escape') {
             setToggleInput(false);
@@ -36,14 +36,14 @@ export const ToDoLIstItem = ({ todo, handleDelete, handleCheck, handleTodoChange
                     <Checkbox
                         onChange={() => handleCheck(todo)}
                         checked={todo.done}
-                        color='primary' 
+                        color='primary'
                         icon={<RadioButtonUncheckedIcon />}
                         checkedIcon={<CheckCircleIcon />}
                     />
                 </Grid>
                 <Grid item xs={8}>
                     {toggleInput
-                        ? <TextField 
+                        ? <TextField
                             multiline={true}
                             value={inputValue}
                             fullWidth
@@ -52,7 +52,7 @@ export const ToDoLIstItem = ({ todo, handleDelete, handleCheck, handleTodoChange
                             onChange={e => setInputValue(e.target.value)}
                             onKeyDown={e => handleKeyDown(todo, e)} />
                         : <ListItemText primary={todo.name}
-                            style={{overflowWrap: 'break-word'}}
+                            style={{ overflowWrap: 'break-word' }}
                             multiline='true'
                             onClick={() => setToggleInput(true)} />}
                 </Grid>
@@ -60,7 +60,7 @@ export const ToDoLIstItem = ({ todo, handleDelete, handleCheck, handleTodoChange
                     <ListItemText primary={time} />
                 </Grid>
                 <Grid item xs={1}>
-                    <IconButton onClick={() => handleDelete(todo.uuid)} >
+                    <IconButton onClick={() => handleDelete(todo.uuid)}>
                         <DeleteIcon />
                     </IconButton>
                 </Grid>
@@ -68,3 +68,4 @@ export const ToDoLIstItem = ({ todo, handleDelete, handleCheck, handleTodoChange
         </ListItem>
     );
 };
+
