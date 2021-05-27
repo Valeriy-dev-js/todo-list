@@ -3,27 +3,21 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import { Snackbar } from '@material-ui/core';
-import { Alert } from '@material-ui/lab';
 import axios from './axiosComfig'
 
 
-let alert = { open: false, status: '', message: '' }
 
 
 axios.interceptors.response.use(null, error => {
-  alert = { open: true, status: error.response.status, message: error.response.data.message }
-  console.log(alert);
   console.log('STATUS', error.response.status);
   console.log('DATA', error.response.data.message);
   return Promise.reject(error)
 });
 
-console.log(alert)
 
 ReactDOM.render(
   <React.StrictMode>
-    <App alert={alert}/>
+    <App/>
   </React.StrictMode>,
   document.getElementById('root')
 );

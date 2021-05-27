@@ -2,19 +2,21 @@ import { Button, ButtonGroup } from '@material-ui/core';
 import React from 'react';
 
 export const FilterButtons = ({ handleFilter, filterType }) => {
-    const buttons = ['All', 'Done', 'Undone'];
+    const buttons = [{title: 'All', type: ''},
+                     {title: 'Done',type: 'done'},
+                     {title: 'Undone', type: 'undone'}];
 
     return (
         <ButtonGroup >
-            {buttons.map((button, index) => (
+            {buttons.map((button) => (
                 <Button color='primary'
-                    key={button}
-                    variant={button === filterType && 'contained'}
+                    key={button.title}
+                    variant={button.type === filterType && 'contained'}
                     onClick={() => {
-                        if (filterType !== buttons[index]) {
-                            return handleFilter(buttons[index])
+                        if (filterType !== button.type) {
+                            return handleFilter(button.type)
                         }
-                    }}>{button}</Button>
+                    }}>{button.title}</Button>
             ))}
         </ButtonGroup>
     );

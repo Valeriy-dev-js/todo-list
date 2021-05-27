@@ -8,47 +8,32 @@ import { ToDoList } from './components/ToDoList';
 import axios from './axiosComfig'
 import { Alert } from '@material-ui/lab';
 
-function App( { alert } ) {
+function App() {
   //State
-  console.log(alert);
-  const [alertNotification, setAlertNotification] = useState()
   const POSTurl = '/v1/task/3'
 
   const [todos, setTodos] = useState([]);
-  const [sorterFilter, setSorterFilter] = useState({ sorterType: true, filterType: 'All' });
+  const [sorterFilter, setSorterFilter] = useState({ sorterType: true, filterType: '' });
+  console.log(sorterFilter);
   const [currentPage, setCurrentPage] = useState(1);
   const [postsPerPage] = useState(5);
   const [isLoading, setIsLoading] = useState(true)
 
-  useEffect(() => {
-    setAlertNotification(alert)
-  },[alert])
+  
 
-  console.log(alertNotification);
 
   //Fetch todos from API
 
   const fetchTodos = useCallback(async () => {
     //creating GETurl
     const { sorterType, filterType } = sorterFilter;
-    //Sort param
-    const date = sorterType
-    ? 'desc'
-    : 'asc'
-    //Filter Param
-    let filter
-    switch (filterType) {
-      case 'All':
-        filter = '';
-        break;
-      case 'Done':
-        filter = 'filterBy=done&';
-        break;
-        default:
-          filter = 'filterBy=undone&'
-    }
-    const URL = `/v1/tasks/3?${filter}order=${date}`
-    const res = await axios.get(URL)
+
+    const res = await axios.get('/v1/tasks/3',{
+      params: {
+        filterBy: filterType,
+        order: sorterType ? 'desc' : 'asc'
+      }
+    })
     setTodos(res.data);
     setIsLoading(false);
   },[sorterFilter])
