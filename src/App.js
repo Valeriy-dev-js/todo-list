@@ -11,16 +11,11 @@ import { Alert } from '@material-ui/lab';
 function App() {
   //State
   const POSTurl = '/v1/task/3'
-
   const [todos, setTodos] = useState([]);
   const [sorterFilter, setSorterFilter] = useState({ sorterType: true, filterType: '' });
-  console.log(sorterFilter);
   const [currentPage, setCurrentPage] = useState(1);
   const [postsPerPage] = useState(5);
   const [isLoading, setIsLoading] = useState(true)
-
-  
-
 
   //Fetch todos from API
 
@@ -29,11 +24,11 @@ function App() {
     const { sorterType, filterType } = sorterFilter;
 
     const res = await axios.get('/v1/tasks/3',{
+      //SorterParams
       params: {
         filterBy: filterType,
         order: sorterType ? 'desc' : 'asc'
-      }
-    })
+      }});
     setTodos(res.data);
     setIsLoading(false);
   },[sorterFilter])
