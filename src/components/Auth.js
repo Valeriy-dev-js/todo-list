@@ -2,16 +2,14 @@ import { Button, ButtonGroup, Grid, TextField } from "@material-ui/core"
 import { useState } from "react"
 import axios from "../axiosConfig";
 
-export const Auth = ({ setIsLogin }) => {
+export const Auth = ({ setIsLogin, signup}) => {
     const [user, setUser] = useState({ name: '', password: '' });
-    console.log(user);
     const login = async () => {
         try {
             const res = await axios.post('/login', {
                 'name': user.name,
                 'password': user.password
             });
-            console.log(res.data);
             setUser({ name: '', password: '' })
             localStorage.setItem('token', res.data.token)
             setIsLogin(false)
@@ -20,7 +18,7 @@ export const Auth = ({ setIsLogin }) => {
             console.log(err.response.data);
         };
     };
-    const signup = async () => {
+    const signUp = async () => {
         try {
             await axios.post('/signup', {
                 'name': user.name,
@@ -34,7 +32,6 @@ export const Auth = ({ setIsLogin }) => {
     return (
         <Grid
             container
-            maxWidth='sm'
             direction='column'
             alignItems='center'>
             <form>
@@ -43,27 +40,27 @@ export const Auth = ({ setIsLogin }) => {
                     value={user.name}
                     label='User Name'
                     fullWidth
-                    variantnt='outlined'
+                    variant='outlined'
                     margin='normal' />
                 <TextField
                     onChange={e => setUser({ ...user, password: e.target.value })}
                     value={user.password}
                     label='Password'
                     fullWidth
-                    variantnt='outlined'
+                    variant='outlined'
                     margin='normal'
                     type='password' />
             </form>
             <ButtonGroup>
-
-                <Button
+                {signup
+                ?<Button
                     onClick={() => login()}
                     color='primary'
-                    variant='contained'>Loggin</Button>
-                <Button
-                    onClick={() => signup()}
+                    variant='contained'>Login</Button>
+                :<Button
+                    onClick={() => signUp()}
                     color='secondary'
-                    variant='contained'>sign up</Button>
+                    variant='contained'>sign up</Button>}
             </ButtonGroup>
         </Grid>
     )
