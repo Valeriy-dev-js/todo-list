@@ -1,12 +1,11 @@
-import { CircularProgress, Container, Grid, Snackbar, Typography } from '@material-ui/core';
+import { CircularProgress, Container, Grid, Typography } from '@material-ui/core';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import './App.css';
 import { Pagination } from './components/Pagination';
 import { SorterFilter } from './components/SorterFilter';
 import { ToDoInput } from './components/ToDoInput';
 import { ToDoList } from './components/ToDoList';
-import axios from './axiosComfig'
-import { Alert } from '@material-ui/lab';
+import axios from './axiosConfig'
 
 function App() {
   //State
@@ -16,21 +15,27 @@ function App() {
   const [currentPage, setCurrentPage] = useState(1);
   const [postsPerPage] = useState(5);
   const [isLoading, setIsLoading] = useState(true)
+  const [loggin, setLogin] = useState(false)
 
   //Fetch todos from API
 
   const fetchTodos = useCallback(async () => {
     //creating GETurl
-    const { sorterType, filterType } = sorterFilter;
+    try {
+      const { sorterType, filterType } = sorterFilter;
+      const res = await axios.get('/tasks',{
+        //SorterParams
+        params: {
+          headers: {'Authorization': '111'},
+          filterBy: filterType,
+          order: sorterType ? 'desc' : 'asc'
+        }});
+        setTodos(res.data);
+        setIsLoading(false);
+    } catch(err){
+      setLogin(true)
+    }
 
-    const res = await axios.get('/v1/tasks/3',{
-      //SorterParams
-      params: {
-        filterBy: filterType,
-        order: sorterType ? 'desc' : 'asc'
-      }});
-    setTodos(res.data);
-    setIsLoading(false);
   },[sorterFilter])
 
   useEffect(() => {
@@ -109,13 +114,6 @@ function App() {
           <Grid item><CircularProgress/></Grid>
         </Grid>
       }
-          {alert.open && <Snackbar open={alert.open} autoHideDuration={2000}>
-      <Alert severity="error">
-        {`Status: ${alert.status} 
-            Message: ${alert.message}`}
-      </Alert>
-    </Snackbar>}
-
     </Container>
   );
 };

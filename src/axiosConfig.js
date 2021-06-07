@@ -2,7 +2,7 @@ import axios from 'axios'
 
 
 const axiosConfig = axios.create({
-    baseURL: 'https://todo-api-learning.herokuapp.com'
+    baseURL: 'http://localhost:3000'
 });
 
 
