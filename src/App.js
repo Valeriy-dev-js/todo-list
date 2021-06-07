@@ -22,6 +22,7 @@ function App() {
         <Container maxWidth='sm'>
             <Header
                 isLogin={isLogin}
+                setIsLogin={setIsLogin}
                 signup={signup}
                 setSignup={setSignup} />
             {isLogin

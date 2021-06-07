@@ -1,6 +1,11 @@
 import { Button, Grid, Typography } from "@material-ui/core"
 
-export const Header = ({ isLogin, signup, setSignup}) => {
+export const Header = ({ isLogin, setIsLogin, signup, setSignup}) => {
+    const signOut = () => {
+        localStorage.removeItem('token')
+        setIsLogin(true)
+    };    
+
     return (
         <Grid
             container
@@ -34,6 +39,7 @@ export const Header = ({ isLogin, signup, setSignup}) => {
                             USER
                     </Typography>
                         <Button
+                            onClick={() => signOut()}
                             color='primary'
                             variant='contained'>
                             Signout
