@@ -1,4 +1,4 @@
-import { CircularProgress, Container, Grid, Typography } from '@material-ui/core';
+import { CircularProgress, Grid} from '@material-ui/core';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { Pagination } from './Pagination';
 import { SorterFilter } from './SorterFilter';
@@ -8,12 +8,16 @@ import axios from '../axiosConfig'
 
 export const Todo =() => {
   //State
-  const POSTurl = '/v1/task/3'
+  const POSTurl = 'task'
   const [todos, setTodos] = useState([]);
   const [sorterFilter, setSorterFilter] = useState({ sorterType: true, filterType: '' });
   const [currentPage, setCurrentPage] = useState(1);
   const [postsPerPage] = useState(5);
   const [isLoading, setIsLoading] = useState(true)
+  const token = localStorage.getItem('token')
+  const headers = useMemo(() => {
+    return {'Authorization': `Bearer ${token}`}
+  },[token]) 
 
   //Fetch todos from API
 
@@ -24,16 +28,16 @@ export const Todo =() => {
       const res = await axios.get('/tasks',{
         //SorterParams
         params: {
-          headers: {'Authorization': '111'},
           filterBy: filterType,
           order: sorterType ? 'desc' : 'asc'
-        }});
-        setTodos(res.data);
+        },
+        headers : headers});
+        setTodos(res.data.Tasks);
         setIsLoading(false);
     } catch(err){
     }
 
-  },[sorterFilter])
+  },[sorterFilter, headers])
 
   useEffect(() => {
       fetchTodos()
@@ -46,12 +50,13 @@ export const Todo =() => {
       {
         "name": todo,
         "done": false
-      });
+      },
+      {headers: headers});
       await fetchTodos();
     };
     //Delete Todo
-    const handleDelete = async (id) => {
-      await axios.delete(`${POSTurl}/${id}`);
+    const handleDelete = async (uuid) => {
+      await axios.delete(`${POSTurl}/${uuid}`, {headers: headers});
       await fetchTodos();
     };
     //Check Todo
@@ -60,7 +65,8 @@ export const Todo =() => {
       {
         "name": todo.name,
         "done": !todo.done
-      });
+      },
+      {headers: headers});
       await fetchTodos();
     };
   //Change Todo
@@ -69,7 +75,8 @@ export const Todo =() => {
       {
         "name": inputValue,
         "done": todo.done
-      });
+      },
+      {headers: headers});
       await fetchTodos();
   };
 
@@ -83,8 +90,7 @@ export const Todo =() => {
   }, [currentPage, postsPerPage, todos]);
 
   return (
-    <Container maxWidth='sm'>
-      <Typography variant='h1' align='center'>To Do</Typography>
+    <>
       <ToDoInput handleSubmit={handleSubmit}
         todos={todos}
         setTodos={setTodos}
@@ -111,6 +117,6 @@ export const Todo =() => {
           <Grid item><CircularProgress/></Grid>
         </Grid>
       }
-    </Container>
+    </>
   );
 };
