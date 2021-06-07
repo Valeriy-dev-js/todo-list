@@ -1,5 +1,9 @@
+import { Formik } from "formik"
+
 export const Auth = () =>{
     return(
-        <h1>dsfsdf</h1>
+        <Formik>
+            
+        </Formik>
     )
 }
