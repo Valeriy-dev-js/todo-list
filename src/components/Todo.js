@@ -6,7 +6,7 @@ import { ToDoInput } from './ToDoInput';
 import { ToDoList } from './ToDoList';
 import axios from '../axiosConfig'
 
-export const Todo =() => {
+export const Todo =({ setUserName }) => {
   //State
   const POSTurl = 'task'
   const [todos, setTodos] = useState([]);
@@ -32,12 +32,13 @@ export const Todo =() => {
           order: sorterType ? 'desc' : 'asc'
         },
         headers : headers});
-        setTodos(res.data.Tasks);
+        setTodos(res.data.tasks);
         setIsLoading(false);
+        setUserName(res.data.userName)
     } catch(err){
     }
 
-  },[sorterFilter, headers])
+  },[sorterFilter, headers, setUserName])
 
   useEffect(() => {
       fetchTodos()

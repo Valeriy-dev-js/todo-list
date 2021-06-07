@@ -8,6 +8,7 @@ import { Header } from './components/Header';
 function App() {
     const [isLogin, setIsLogin] = useState(false)
     const [signup, setSignup] = useState(false);
+    const [userName, setUserName] = useState('')
 
 
     const setToken = useCallback(() => {
@@ -21,6 +22,7 @@ function App() {
     return (
         <Container maxWidth='sm'>
             <Header
+                userName={userName}
                 isLogin={isLogin}
                 setIsLogin={setIsLogin}
                 signup={signup}
@@ -29,7 +31,7 @@ function App() {
                 ? <Auth
                     setIsLogin={setIsLogin}
                     signup={signup} />
-                : <Todo />}
+                : <Todo setUserName={setUserName} />}
         </Container>
     )
 }

@@ -1,6 +1,6 @@
 import { Button, Grid, Typography } from "@material-ui/core"
 
-export const Header = ({ isLogin, setIsLogin, signup, setSignup}) => {
+export const Header = ({ isLogin, setIsLogin, signup, setSignup, userName}) => {
     const signOut = () => {
         localStorage.removeItem('token')
         setIsLogin(true)
@@ -36,7 +36,7 @@ export const Header = ({ isLogin, setIsLogin, signup, setSignup}) => {
                         alignItems='center'
                         justify='space-between'>
                         <Typography>
-                            USER
+                            {userName}
                     </Typography>
                         <Button
                             onClick={() => signOut()}
