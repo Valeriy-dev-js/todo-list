@@ -27,10 +27,10 @@ export const ToDoLIstItem = ({ todo, handleDelete, handleTodoChange }) => {
         };
     };
     const handleCheck = () => {
-        setTask({...task, done: !task.done})
-        handleTodoChange(task)
+        const newTask = {...task, done: !task.done}
+        setTask(newTask)
+        handleTodoChange(newTask)
     }
-
     return (
         <ListItem style={styles}>
             <Grid container
