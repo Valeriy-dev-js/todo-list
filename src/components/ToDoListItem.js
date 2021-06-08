@@ -10,22 +10,26 @@ const styles = {
     marginBottom: '10px'
 };
 
-export const ToDoLIstItem = ({ todo, handleDelete, handleCheck, handleTodoChange }) => {
+export const ToDoLIstItem = ({ todo, handleDelete, handleTodoChange }) => {
     const time = todo.createdAt.match(/\d+.\d+.\d+/s)[0];
     const [toggleInput, setToggleInput] = useState(false);
-    const [inputValue, setInputValue] = useState(todo.name);
+    const [task, setTask] = useState(todo);
 
     const handleKeyDown = async (todo, e) => {
         if (e.key === 'Enter') {
             e.preventDefault();
-            await handleTodoChange(todo, inputValue);
+            await handleTodoChange(task);
             setToggleInput(false);
         };
         if (e.key === 'Escape') {
             setToggleInput(false);
-            setInputValue(todo.name);
+            setTask({...task, name: todo.name})
         };
     };
+    const handleCheck = () => {
+        setTask({...task, done: !task.done})
+        handleTodoChange(task)
+    }
 
     return (
         <ListItem style={styles}>
@@ -34,8 +38,8 @@ export const ToDoLIstItem = ({ todo, handleDelete, handleCheck, handleTodoChange
                 alignItems='center'>
                 <Grid item xs={1}>
                     <Checkbox
-                        onChange={() => handleCheck(todo)}
-                        checked={todo.done}
+                        onChange={() => handleCheck()}
+                        checked={task.done}
                         color='primary'
                         icon={<RadioButtonUncheckedIcon />}
                         checkedIcon={<CheckCircleIcon />}
@@ -45,11 +49,11 @@ export const ToDoLIstItem = ({ todo, handleDelete, handleCheck, handleTodoChange
                     {toggleInput
                         ? <TextField
                             multiline={true}
-                            value={inputValue}
+                            value={task.name}
                             fullWidth
                             variant='outlined'
                             autoFocus={true}
-                            onChange={e => setInputValue(e.target.value)}
+                            onChange={e => setTask({...task, name:e.target.value})}
                             onKeyDown={e => handleKeyDown(todo, e)} />
                         : <ListItemText primary={todo.name}
                             style={{ overflowWrap: 'break-word' }}

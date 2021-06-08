@@ -8,8 +8,7 @@ import axios from '../axiosConfig'
 
 export const Todo = ({ setUserName, setIsLogin }) => {
   //State
-  console.log('TODO');
-  const POSTurl = 'task'
+    const POSTurl = 'task'
   const [todos, setTodos] = useState([]);
   const [sorterFilter, setSorterFilter] = useState({ sorterType: true, filterType: '' });
   const [currentPage, setCurrentPage] = useState(1);
@@ -69,20 +68,20 @@ export const Todo = ({ setUserName, setIsLogin }) => {
     await fetchTodos();
   };
   //Check Todo
-  const handleCheck = async ({ name, done, uuid }) => {
+  // const handleCheck = async ({ name, done, uuid }) => {
+  //   await axios.patch(`${POSTurl}/${uuid}`,
+  //     {
+  //       name,
+  //       done: !done
+  //     });
+  //   await fetchTodos();
+  // };
+  // //Change Todo
+  const handleTodoChange = async ({name, done, uuid}) => {
     await axios.patch(`${POSTurl}/${uuid}`,
       {
         name,
-        done: !done
-      });
-    await fetchTodos();
-  };
-  //Change Todo
-  const handleTodoChange = async (todo, inputValue) => {
-    await axios.patch(`${POSTurl}/${todo.uuid}`,
-      {
-        name: inputValue,
-        done: todo.done
+        done
       });
     await fetchTodos();
   };
@@ -100,9 +99,10 @@ export const Todo = ({ setUserName, setIsLogin }) => {
       {!isLoading &&
         <ToDoList
           todos={todos}
-          handleCheck={handleCheck}
+          // handleCheck={handleCheck}
           handleDelete={handleDelete}
-          handleTodoChange={handleTodoChange} />}
+          handleTodoChange={handleTodoChange} 
+          />}
       {(pagesCount > 1 && !isLoading) &&
         <Pagination
           pagesCount={pagesCount}
