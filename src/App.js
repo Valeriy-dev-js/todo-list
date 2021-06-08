@@ -10,14 +10,13 @@ function App() {
     const [signup, setSignup] = useState(false);
     const [userName, setUserName] = useState('')
 
-
-    const setToken = useCallback(() => {
-        if (!localStorage.token) setIsLogin(true)
-    }, [])
+    const checkToken = useCallback(() => {
+        if (!localStorage.token) setIsLogin(true);
+    }, []);
 
     useEffect(() => {
-        setToken()
-    });
+        checkToken();
+    }, [checkToken]);
 
     return (
         <Container maxWidth='sm'>
@@ -31,11 +30,11 @@ function App() {
                 ? <Auth
                     setIsLogin={setIsLogin}
                     signup={signup} />
-                : <Todo 
+                : <Todo
                     setUserName={setUserName}
                     setIsLogin={setIsLogin} />}
         </Container>
-    )
-}
+    );
+};
 
 export default App;

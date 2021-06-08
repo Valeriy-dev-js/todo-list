@@ -13,8 +13,7 @@ export const Auth = ({ setIsLogin, signup }) => {
             });
             setUser({ name: '', password: '' });
             const token = res.data.token;
-            localStorage.setItem('token', res.data.token);
-            axios.defaults.headers.common['Authorization'] = `Bearer ${token}`
+            localStorage.setItem('token', token);
             setIsLogin(false);
 
         } catch (err) {
