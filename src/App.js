@@ -31,7 +31,9 @@ function App() {
                 ? <Auth
                     setIsLogin={setIsLogin}
                     signup={signup} />
-                : <Todo setUserName={setUserName} />}
+                : <Todo 
+                    setUserName={setUserName}
+                    setIsLogin={setIsLogin} />}
         </Container>
     )
 }

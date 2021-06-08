@@ -6,7 +6,7 @@ import { ToDoInput } from './ToDoInput';
 import { ToDoList } from './ToDoList';
 import axios from '../axiosConfig'
 
-export const Todo =({ setUserName }) => {
+export const Todo =({ setUserName, setIsLogin }) => {
   //State
   const POSTurl = 'task'
   const [todos, setTodos] = useState([]);
@@ -34,15 +34,20 @@ export const Todo =({ setUserName }) => {
           curentPage: currentPage,
           limit: postsPerPage
         },
-        headers : headers});
+        headers});
         setTodos(res.data.tasks);
         setPagesCount(res.data.pagesCount)
         setIsLoading(false);
         setUserName(res.data.userName);
     } catch(err){
+      const message = err.response.data.message;
+      if(message === 'Incorrect token') {
+        localStorage.removeItem('token')
+        setIsLogin(true)
+      };
     }
 
-  },[sorterFilter, headers, setUserName, currentPage, postsPerPage])
+  },[sorterFilter, headers, setUserName, currentPage, postsPerPage, setIsLogin])
 
   useEffect(() => {
       fetchTodos()
@@ -53,10 +58,10 @@ export const Todo =({ setUserName }) => {
   const handleSubmit = async (todo) => {
     await axios.post(POSTurl,
       {
-        "name": todo,
-        "done": false
+        name: todo,
+        done: false
       },
-      {headers: headers});
+      { headers});
       await fetchTodos();
     };
     //Delete Todo
@@ -65,23 +70,23 @@ export const Todo =({ setUserName }) => {
       await fetchTodos();
     };
     //Check Todo
-    const handleCheck = async (todo) => {
-      await axios.patch(`${POSTurl}/${todo.uuid}`,
+    const handleCheck = async ({name, done, uuid}) => {
+      await axios.patch(`${POSTurl}/${uuid}`,
       {
-        "name": todo.name,
-        "done": !todo.done
+        name,
+        done: !done
       },
-      {headers: headers});
+      { headers});
       await fetchTodos();
     };
   //Change Todo
   const handleTodoChange = async (todo, inputValue) => {
     await axios.patch(`${POSTurl}/${todo.uuid}`,
       {
-        "name": inputValue,
-        "done": todo.done
+        name: inputValue,
+        done: todo.done
       },
-      {headers: headers});
+      { headers });
       await fetchTodos();
   };
 

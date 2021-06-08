@@ -8,12 +8,14 @@ export const Auth = ({ setIsLogin, signup }) => {
     const login = async () => {
         try {
             const res = await axios.post('/login', {
-                'name': user.name,
-                'password': user.password
+                name: user.name,
+                password: user.password
             });
-            setUser({ name: '', password: '' })
-            localStorage.setItem('token', res.data.token)
-            setIsLogin(false)
+            setUser({ name: '', password: '' });
+            const token = res.data.token;
+            localStorage.setItem('token', res.data.token);
+            axios.defaults.headers.common['Authorization'] = `Bearer ${token}`
+            setIsLogin(false);
 
         } catch (err) {
             const message = err.response.data.message;
@@ -23,8 +25,8 @@ export const Auth = ({ setIsLogin, signup }) => {
     const signUp = async () => {
         try {
             await axios.post('/signup', {
-                'name': user.name,
-                'password': user.password
+                name: user.name,
+                password: user.password
             });
             // login()
         } catch (err) {
