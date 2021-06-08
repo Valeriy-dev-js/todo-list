@@ -13,6 +13,7 @@ export const Todo =({ setUserName }) => {
   const [sorterFilter, setSorterFilter] = useState({ sorterType: true, filterType: '' });
   const [currentPage, setCurrentPage] = useState(1);
   const [postsPerPage] = useState(5);
+  const [pagesCount, setPagesCount] = useState(1);
   const [isLoading, setIsLoading] = useState(true)
   const token = localStorage.getItem('token')
   const headers = useMemo(() => {
@@ -29,16 +30,19 @@ export const Todo =({ setUserName }) => {
         //SorterParams
         params: {
           filterBy: filterType,
-          order: sorterType ? 'desc' : 'asc'
+          order: sorterType ? 'desc' : 'asc',
+          curentPage: currentPage,
+          limit: postsPerPage
         },
         headers : headers});
         setTodos(res.data.tasks);
+        setPagesCount(res.data.pagesCount)
         setIsLoading(false);
-        setUserName(res.data.userName)
+        setUserName(res.data.userName);
     } catch(err){
     }
 
-  },[sorterFilter, headers, setUserName])
+  },[sorterFilter, headers, setUserName, currentPage, postsPerPage])
 
   useEffect(() => {
       fetchTodos()
@@ -81,15 +85,6 @@ export const Todo =({ setUserName }) => {
       await fetchTodos();
   };
 
-  //Paagination logic
-  const paginateTodos = useMemo(() => {
-    const APItodos = [...todos]
-    const indexOfLastPost = currentPage * postsPerPage;
-    const indexOfFirstPost = indexOfLastPost - postsPerPage;
-    const currentPosts = APItodos.slice(indexOfFirstPost, indexOfLastPost);
-    return currentPosts;
-  }, [currentPage, postsPerPage, todos]);
-
   return (
     <>
       <ToDoInput handleSubmit={handleSubmit}
@@ -102,14 +97,13 @@ export const Todo =({ setUserName }) => {
         setCurrentPage={setCurrentPage} />
       {!isLoading &&
         <ToDoList
-          todos={paginateTodos}
+          todos={todos}
           handleCheck={handleCheck}
           handleDelete={handleDelete}
           handleTodoChange={handleTodoChange} />}
-      {(todos.length > 5 && !isLoading) &&
+      {(pagesCount > 1 && !isLoading) &&
         <Pagination
-          totalPosts={todos.length}
-          postsPerPage={postsPerPage}
+          pagesCount={pagesCount}
           currentPage={currentPage}
           setCurrentPage={setCurrentPage} />
       }
