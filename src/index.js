@@ -6,14 +6,23 @@ import reportWebVitals from './reportWebVitals';
 import axios from './axiosConfig'
 import { Provider } from 'react-redux';
 import { store } from './app/store'
+import { setAlert } from './app/alertSlice'
 
+
+// const {isAlert, message, status } = useSelector()
+// const dispatch = useDispatch()
 
 
 axios.interceptors.response.use(null, error => {
-  console.log('STATUS', error.response.status);
-  console.log('DATA', error.response.data.message);
+  const alert = {
+    isAlert: true,
+    message: error.response.data.message,
+    status: error.response.status
+  }
+  store.dispatch(setAlert(alert))
   return Promise.reject(error)
 });
+
 
 
 ReactDOM.render(

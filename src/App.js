@@ -8,10 +8,13 @@ import { useDispatch, useSelector } from 'react-redux';
 import { selectIsAuth, toggleAuth } from './components/auth/authSlice';
 import { decode } from 'jsonwebtoken';
 import axios from './axiosConfig'
+import { selectAlert } from './app/alertSlice'
 
 function App() {
-    const isAuth = useSelector(selectIsAuth)
-    const dispatch = useDispatch()
+    const alert = useSelector(selectAlert);
+    console.log(alert);
+    const isAuth = useSelector(selectIsAuth);
+    const dispatch = useDispatch();
 
     const checkToken = useCallback(() => {
         if (!localStorage.token) return
