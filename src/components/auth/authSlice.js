@@ -19,5 +19,5 @@ const authSlice = createSlice({
 
 export const { toggleAuth, toggleSignup } = authSlice.actions
 export const selectIsAuth = state => state.auth.isAuth
-export const selectIsLogin = state => state.auth.isLogin
+export const selectIsSignup = state => state.auth.isSignup
 export default authSlice.reducer

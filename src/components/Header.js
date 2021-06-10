@@ -1,10 +1,15 @@
 import { Button, Grid, Typography } from "@material-ui/core"
+import { useDispatch, useSelector } from "react-redux";
+import { selectIsSignup, toggleSignup } from './auth/authSlice'
 
-export const Header = ({ isLogin, setIsLogin, signup, setSignup, userName}) => {
+
+export const Header = ({ isLogin, setIsLogin, userName }) => {
+    const isSignup = useSelector(selectIsSignup);
+    const dispatch = useDispatch();
     const signOut = () => {
         localStorage.removeItem('token')
         setIsLogin(true)
-    };    
+    };
 
     return (
         <Grid
@@ -16,19 +21,13 @@ export const Header = ({ isLogin, setIsLogin, signup, setSignup, userName}) => {
             </Grid>
             {isLogin
                 ? <Grid>
-                    {signup
-                        ? <Button
-                            color='secondary'
-                            variant='contained'
-                            onClick={() => setSignup(false)}>
-                            sign up
-                            </Button>
-                        : <Button
-                            color='primary'
-                            variant='contained'
-                            onClick={() => setSignup(true)}>
-                            login
-                </Button>}
+                    <Button
+                        color={isSignup ? 'secondary' : 'primary'}
+                        variant='contained'
+                        onClick={() => dispatch(toggleSignup())}>
+                        {isSignup ? 'sign up' : 'login'}
+                    </Button>
+
                 </Grid>
                 : <Grid item xs={4}>
                     <Grid
@@ -37,7 +36,7 @@ export const Header = ({ isLogin, setIsLogin, signup, setSignup, userName}) => {
                         justify='space-between'>
                         <Typography>
                             {userName}
-                    </Typography>
+                        </Typography>
                         <Button
                             onClick={() => signOut()}
                             color='primary'

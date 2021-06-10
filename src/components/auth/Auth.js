@@ -1,8 +1,12 @@
 import { Button, Grid, TextField } from "@material-ui/core"
 import { useState } from "react"
+import { useDispatch, useSelector } from "react-redux";
 import axios from "../../axiosConfig";
+import { selectIsSignup } from './authSlice'
 
-export const Auth = ({ setIsLogin, signup }) => {
+export const Auth = ({ setIsLogin }) => {
+    const isSignup = useSelector(selectIsSignup);
+    const dispatch = useDispatch();
     const [user, setUser] = useState({ name: '', password: '' });
     const [helperText, setHelperText] = useState('');
     const login = async () => {
@@ -27,7 +31,7 @@ export const Auth = ({ setIsLogin, signup }) => {
                 name: user.name,
                 password: user.password
             });
-            // login()
+            login()
         } catch (err) {
             const message = err.response.data.message;
             setHelperText(message);
@@ -66,7 +70,7 @@ export const Auth = ({ setIsLogin, signup }) => {
                     margin='normal'
                     type='password' />
 
-                {signup
+                {isSignup
                     ? <Button
                         type='submit'
                         onClick={() => login()}

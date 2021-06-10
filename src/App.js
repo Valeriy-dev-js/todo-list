@@ -1,13 +1,12 @@
 import { useCallback, useEffect, useState } from 'react';
 import './App.css';
 import { Todo } from './components/Todo';
-import { Auth } from './components/auth';
+import { Auth } from './components/auth/Auth';
 import { Container } from '@material-ui/core';
 import { Header } from './components/Header';
 
 function App() {
     const [isLogin, setIsLogin] = useState(false)
-    const [signup, setSignup] = useState(false);
     const [userName, setUserName] = useState('')
 
     const checkToken = useCallback(() => {
@@ -23,13 +22,10 @@ function App() {
             <Header
                 userName={userName}
                 isLogin={isLogin}
-                setIsLogin={setIsLogin}
-                signup={signup}
-                setSignup={setSignup} />
+                setIsLogin={setIsLogin} />
             {isLogin
                 ? <Auth
-                    setIsLogin={setIsLogin}
-                    signup={signup} />
+                    setIsLogin={setIsLogin} />
                 : <Todo
                     setUserName={setUserName}
                     setIsLogin={setIsLogin} />}
