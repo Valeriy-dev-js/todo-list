@@ -5,11 +5,14 @@ import { SorterFilter } from './SorterFilter';
 import { ToDoInput } from './ToDoInput';
 import { ToDoList } from './ToDoList';
 import axios from '../axiosConfig'
+import { useDispatch } from 'react-redux';
+import { toggleAuth } from './auth/authSlice'
 
-export const Todo = ({ setUserName, setIsLogin }) => {
+export const Todo = () => {
   //State
-    const POSTurl = 'task'
-  const [todos, setTodos] = useState([]);
+  const POSTurl = 'task';
+  const dispatch = useDispatch();
+  const [todos, setTodos] = useState([]); 
   const [sorterFilter, setSorterFilter] = useState({ sorterType: true, filterType: '' });
   const [currentPage, setCurrentPage] = useState(1);
   const [postsPerPage] = useState(5);
@@ -37,20 +40,22 @@ export const Todo = ({ setUserName, setIsLogin }) => {
       setTodos(res.data.tasks);
       setPagesCount(res.data.pagesCount)
       setIsLoading(false);
-      setUserName(res.data.userName);
     } catch (err) {
       const message = err.response.data.message;
       if (message === 'Incorrect token') {
-        localStorage.removeItem('token')
-        setIsLogin(true)
+        localStorage.removeItem('token');
+        localStorage.removeItem('name');
+        dispatch(toggleAuth());
       };
     }
 
-  }, [sorterFilter, setUserName, currentPage, postsPerPage, setIsLogin])
+  }, [sorterFilter, dispatch, currentPage, postsPerPage])
 
   useEffect(() => {
     fetchTodos()
   }, [fetchTodos])
+
+  
 
   //Action functions
   //Add Todo

@@ -3,13 +3,14 @@ import { useDispatch, useSelector } from "react-redux";
 import { selectIsSignup, selectIsAuth, toggleSignup, toggleAuth } from './auth/authSlice'
 
 
-export const Header = ({ isLogin, setIsLogin, userName }) => {
+export const Header = () => {
     const isAuth = useSelector(selectIsAuth)
     const isSignup = useSelector(selectIsSignup);
     const dispatch = useDispatch();
+    const name = localStorage.getItem('name')
     const signOut = () => {
         localStorage.removeItem('token')
-        // setIsLogin(true)
+        localStorage.removeItem('name')
         dispatch(toggleAuth())
     };
 
@@ -37,7 +38,7 @@ export const Header = ({ isLogin, setIsLogin, userName }) => {
                         alignItems='center'
                         justify='space-between'>
                         <Typography>
-                            {userName}
+                            {name}
                         </Typography>
                         <Button
                             onClick={() => signOut()}

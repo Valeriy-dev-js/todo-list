@@ -17,7 +17,8 @@ export const Auth = () => {
             });
             const token = res.data.token;
             localStorage.setItem('token', token);
-            dispatch(toggleAuth())
+            localStorage.setItem('name', user.name);
+            dispatch(toggleAuth());
         } catch (err) {
             const message = err.response.data.message;
             setHelperText(message);

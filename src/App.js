@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useLayoutEffect, useState } from 'react';
 import './App.css';
 import { Todo } from './components/Todo';
 import { Auth } from './components/auth/Auth';
@@ -10,24 +10,21 @@ import { selectIsAuth, toggleAuth } from './components/auth/authSlice'
 function App() {
     const isAuth = useSelector(selectIsAuth)
     const dispatch = useDispatch()
-    const [userName, setUserName] = useState('')
 
     const checkToken = useCallback(() => {
-        if (!localStorage.token) dispatch(toggleAuth());
+        if (localStorage.token) dispatch(toggleAuth());
     }, [dispatch]);
-
-    useEffect(() => {
+    // useLayoutEffect
+    useLayoutEffect(() => {
         checkToken();
     }, [checkToken]);
 
     return (
         <Container maxWidth='sm'>
-            <Header
-                userName={userName}/>
+            <Header />
             {isAuth
                 ? <Auth />
-                : <Todo
-                    setUserName={setUserName} />}
+                : <Todo />}
         </Container>
     );
 };
