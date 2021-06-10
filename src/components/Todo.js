@@ -67,15 +67,6 @@ export const Todo = ({ setUserName, setIsLogin }) => {
     await axios.delete(`${POSTurl}/${uuid}`);
     await fetchTodos();
   };
-  //Check Todo
-  // const handleCheck = async ({ name, done, uuid }) => {
-  //   await axios.patch(`${POSTurl}/${uuid}`,
-  //     {
-  //       name,
-  //       done: !done
-  //     });
-  //   await fetchTodos();
-  // };
   // //Change Todo
   const handleTodoChange = async ({name, done, uuid}) => {
     await axios.patch(`${POSTurl}/${uuid}`,
@@ -99,7 +90,6 @@ export const Todo = ({ setUserName, setIsLogin }) => {
       {!isLoading &&
         <ToDoList
           todos={todos}
-          // handleCheck={handleCheck}
           handleDelete={handleDelete}
           handleTodoChange={handleTodoChange} 
           />}
