@@ -4,7 +4,8 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import axios from './axiosConfig'
-
+import { Provider } from 'react-redux';
+import { store } from './app/store'
 
 
 
@@ -17,7 +18,9 @@ axios.interceptors.response.use(null, error => {
 
 ReactDOM.render(
   <React.StrictMode>
-    <App/>
+    <Provider store={store}>
+      <App />
+    </Provider>
   </React.StrictMode>,
   document.getElementById('root')
 );
