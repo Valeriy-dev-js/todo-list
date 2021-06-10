@@ -1,14 +1,16 @@
 import { Button, Grid, Typography } from "@material-ui/core"
 import { useDispatch, useSelector } from "react-redux";
-import { selectIsSignup, toggleSignup } from './auth/authSlice'
+import { selectIsSignup, selectIsAuth, toggleSignup, toggleAuth } from './auth/authSlice'
 
 
 export const Header = ({ isLogin, setIsLogin, userName }) => {
+    const isAuth = useSelector(selectIsAuth)
     const isSignup = useSelector(selectIsSignup);
     const dispatch = useDispatch();
     const signOut = () => {
         localStorage.removeItem('token')
-        setIsLogin(true)
+        // setIsLogin(true)
+        dispatch(toggleAuth())
     };
 
     return (
@@ -19,7 +21,7 @@ export const Header = ({ isLogin, setIsLogin, userName }) => {
             <Grid item sx={8}>
                 <Typography variant='h3' align='center'>To Do</Typography>
             </Grid>
-            {isLogin
+            {isAuth
                 ? <Grid>
                     <Button
                         color={isSignup ? 'secondary' : 'primary'}

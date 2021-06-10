@@ -2,9 +2,9 @@ import { Button, Grid, TextField } from "@material-ui/core"
 import { useState } from "react"
 import { useDispatch, useSelector } from "react-redux";
 import axios from "../../axiosConfig";
-import { selectIsSignup } from './authSlice'
+import { selectIsSignup, toggleAuth } from './authSlice'
 
-export const Auth = ({ setIsLogin }) => {
+export const Auth = () => {
     const isSignup = useSelector(selectIsSignup);
     const dispatch = useDispatch();
     const [user, setUser] = useState({ name: '', password: '' });
@@ -15,11 +15,9 @@ export const Auth = ({ setIsLogin }) => {
                 name: user.name,
                 password: user.password
             });
-            setUser({ name: '', password: '' });
             const token = res.data.token;
             localStorage.setItem('token', token);
-            setIsLogin(false);
-
+            dispatch(toggleAuth())
         } catch (err) {
             const message = err.response.data.message;
             setHelperText(message);

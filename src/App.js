@@ -4,14 +4,17 @@ import { Todo } from './components/Todo';
 import { Auth } from './components/auth/Auth';
 import { Container } from '@material-ui/core';
 import { Header } from './components/Header';
+import { useDispatch, useSelector } from 'react-redux';
+import { selectIsAuth, toggleAuth } from './components/auth/authSlice'
 
 function App() {
-    const [isLogin, setIsLogin] = useState(false)
+    const isAuth = useSelector(selectIsAuth)
+    const dispatch = useDispatch()
     const [userName, setUserName] = useState('')
 
     const checkToken = useCallback(() => {
-        if (!localStorage.token) setIsLogin(true);
-    }, []);
+        if (!localStorage.token) dispatch(toggleAuth());
+    }, [dispatch]);
 
     useEffect(() => {
         checkToken();
@@ -20,15 +23,11 @@ function App() {
     return (
         <Container maxWidth='sm'>
             <Header
-                userName={userName}
-                isLogin={isLogin}
-                setIsLogin={setIsLogin} />
-            {isLogin
-                ? <Auth
-                    setIsLogin={setIsLogin} />
+                userName={userName}/>
+            {isAuth
+                ? <Auth />
                 : <Todo
-                    setUserName={setUserName}
-                    setIsLogin={setIsLogin} />}
+                    setUserName={setUserName} />}
         </Container>
     );
 };
