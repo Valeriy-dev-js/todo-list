@@ -1,6 +1,6 @@
 import { Button, Grid, TextField } from "@material-ui/core"
 import { useState } from "react"
-import axios from "../axiosConfig";
+import axios from "../../axiosConfig";
 
 export const Auth = ({ setIsLogin, signup }) => {
     const [user, setUser] = useState({ name: '', password: '' });

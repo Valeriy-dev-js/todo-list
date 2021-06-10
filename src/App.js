@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from 'react';
 import './App.css';
 import { Todo } from './components/Todo';
-import { Auth } from './components/Auth';
+import { Auth } from './components/auth';
 import { Container } from '@material-ui/core';
 import { Header } from './components/Header';
 
