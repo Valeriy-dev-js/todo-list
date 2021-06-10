@@ -9,14 +9,17 @@ const alertSlice = createSlice({
     },
     reducers:{
         setAlert(state, action){
-            state.isAlert = action.payload.isAlert
-            state.message = action.payload.message
-            state.status = action.payload.status
+            state.isAlert = action.payload.isAlert;
+            state.message = action.payload.message;
+            state.status = action.payload.status;
         },
+        setIsAlert(state, action){
+            state.isAlert = action.payload;
+        }
     }
 });
 
-export const { setAlert } = alertSlice.actions
+export const { setAlert, setIsAlert } = alertSlice.actions
 export const selectAlert = state => state.alert
 export default alertSlice.reducer
 

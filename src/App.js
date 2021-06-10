@@ -2,15 +2,17 @@ import { useCallback, useLayoutEffect } from 'react';
 import './App.css';
 import { Todo } from './components/Todo';
 import { Auth } from './components/auth/Auth';
-import { Container } from '@material-ui/core';
+import { Container, Snackbar } from '@material-ui/core';
 import { Header } from './components/Header';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectIsAuth, toggleAuth } from './components/auth/authSlice';
 import { decode } from 'jsonwebtoken';
 import axios from './axiosConfig'
-import { selectAlert } from './app/alertSlice'
+import { selectAlert, setIsAlert } from './app/alertSlice'
+import { Alert, AlertTitle } from '@material-ui/lab';
 
 function App() {
+
     const alert = useSelector(selectAlert);
     console.log(alert);
     const isAuth = useSelector(selectIsAuth);
@@ -33,12 +35,15 @@ function App() {
     };
     const handleSignup = async ({ name, password }) => {
         await axios.post('/signup', { name, password });
-        handleLogin({ name, password });  
+        handleLogin({ name, password });
     };
     const handleSignout = () => {
         localStorage.removeItem('token')
         localStorage.removeItem('name')
         dispatch(toggleAuth())
+    }
+    const handleClose = () => {
+        dispatch(setIsAlert(false))
     }
 
     return (
@@ -50,6 +55,18 @@ function App() {
                     handleLogin={handleLogin}
                     handleSignup={handleSignup} />
                 : <Todo />}
+            <Snackbar 
+                onClose={handleClose}
+                open={alert.isAlert}
+                autoHideDuration={3000} >
+                <Alert
+                    severity="error" >
+                    <AlertTitle>
+                        {`Status code ${alert.status}`}
+                    </AlertTitle>
+                    {alert.message}
+                </Alert>
+            </Snackbar>
         </Container>
     );
 };
