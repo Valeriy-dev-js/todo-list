@@ -22,7 +22,7 @@ export const Header = () => {
             <Grid item sx={8}>
                 <Typography variant='h3' align='center'>To Do</Typography>
             </Grid>
-            {isAuth
+            {!isAuth
                 ? <Grid>
                     <Button
                         color={isSignup ? 'secondary' : 'primary'}

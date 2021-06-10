@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useLayoutEffect, useState } from 'react';
+import { useCallback, useLayoutEffect} from 'react';
 import './App.css';
 import { Todo } from './components/Todo';
 import { Auth } from './components/auth/Auth';
@@ -14,7 +14,6 @@ function App() {
     const checkToken = useCallback(() => {
         if (localStorage.token) dispatch(toggleAuth());
     }, [dispatch]);
-    // useLayoutEffect
     useLayoutEffect(() => {
         checkToken();
     }, [checkToken]);
@@ -22,7 +21,7 @@ function App() {
     return (
         <Container maxWidth='sm'>
             <Header />
-            {isAuth
+            {!isAuth
                 ? <Auth />
                 : <Todo />}
         </Container>
