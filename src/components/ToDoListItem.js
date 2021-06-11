@@ -24,13 +24,17 @@ export const ToDoLIstItem = ({ todo, handleTodoDelete, handleTodoChange }) => {
         };
         if (e.key === 'Escape') {
             setToggleInput(false);
-            setTask({ ...task, name: todo.name })
+            setTask({ ...task, name: todo.name });
         };
     };
     const handleCheck = () => {
-        const newTask = { ...task, done: !task.done }
-        setTask(newTask)
-        handleTodoChange(newTask)
+        const newTask = { ...task, done: !task.done };
+        setTask(newTask);
+        handleTodoChange(newTask);
+    };
+    const handleDelete = () => {
+        setDisabled(true)
+        handleTodoDelete(todo)
     }
     return (
         <ListItem style={styles}>
@@ -67,7 +71,7 @@ export const ToDoLIstItem = ({ todo, handleTodoDelete, handleTodoChange }) => {
                 <Grid item xs={1}>
                     <IconButton
                         disabled={disbled}
-                        onClick={() => handleTodoDelete(todo.uuid)}>
+                        onClick={() => handleDelete()}>
                         <DeleteIcon />
                     </IconButton>
                 </Grid>

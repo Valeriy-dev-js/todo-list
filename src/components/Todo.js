@@ -12,7 +12,7 @@ export const Todo = () => {
   //State
   const POSTurl = 'task';
   const dispatch = useDispatch();
-  const [todos, setTodos] = useState([]); 
+  const [todos, setTodos] = useState([]);
   const [sorterFilter, setSorterFilter] = useState({ sorterType: true, filterType: '' });
   const [currentPage, setCurrentPage] = useState(1);
   const [postsPerPage] = useState(5);
@@ -55,7 +55,7 @@ export const Todo = () => {
     fetchTodos()
   }, [fetchTodos])
 
-  
+
 
   //Action functions
   //Add Todo
@@ -68,12 +68,12 @@ export const Todo = () => {
     await fetchTodos();
   };
   //Delete Todo
-  const handleTodoDelete = async (uuid) => {
+  const handleTodoDelete = async ({ uuid }) => {
     await axios.delete(`${POSTurl}/${uuid}`);
     await fetchTodos();
   };
   // //Change Todo
-  const handleTodoChange = async ({name, done, uuid}) => {
+  const handleTodoChange = async ({ name, done, uuid }) => {
     await axios.patch(`${POSTurl}/${uuid}`,
       {
         name,
@@ -96,8 +96,8 @@ export const Todo = () => {
         <ToDoList
           todos={todos}
           handleTodoDelete={handleTodoDelete}
-          handleTodoChange={handleTodoChange} 
-          />}
+          handleTodoChange={handleTodoChange}
+        />}
       {(pagesCount > 1 && !isLoading) &&
         <Pagination
           pagesCount={pagesCount}
