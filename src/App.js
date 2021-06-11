@@ -30,6 +30,7 @@ function App() {
         const res = await axios.post('/login', { name, password });
         const token = res.data.token;
         localStorage.setItem('token', token);
+        localStorage.setItem('name', name);
         dispatch(toggleAuth());
     };
     const handleSignup = async ({ name, password }) => {
