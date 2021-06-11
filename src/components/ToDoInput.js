@@ -1,13 +1,13 @@
 import { TextField } from "@material-ui/core";
 import React, { useState } from "react";
 
-export const ToDoInput = ({ handleSubmit }) => {
+export const ToDoInput = ({ handleTodoSubmit }) => {
     const [todo, setTodo] = useState('');
     
     const pressEnter = async (event) => {
         if (event.key === 'Enter') {
             event.preventDefault();
-            await handleSubmit(todo);
+            await handleTodoSubmit(todo);
             setTodo('');
         };
     };

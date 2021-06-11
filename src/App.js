@@ -14,7 +14,6 @@ import { Alert, AlertTitle } from '@material-ui/lab';
 function App() {
 
     const alert = useSelector(selectAlert);
-    console.log(alert);
     const isAuth = useSelector(selectIsAuth);
     const dispatch = useDispatch();
 

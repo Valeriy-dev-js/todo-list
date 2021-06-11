@@ -59,7 +59,7 @@ export const Todo = () => {
 
   //Action functions
   //Add Todo
-  const handleSubmit = async (todo) => {
+  const handleTodoSubmit = async (todo) => {
     await axios.post(POSTurl,
       {
         name: todo,
@@ -68,7 +68,7 @@ export const Todo = () => {
     await fetchTodos();
   };
   //Delete Todo
-  const handleDelete = async (uuid) => {
+  const handleTodoDelete = async (uuid) => {
     await axios.delete(`${POSTurl}/${uuid}`);
     await fetchTodos();
   };
@@ -84,7 +84,7 @@ export const Todo = () => {
 
   return (
     <>
-      <ToDoInput handleSubmit={handleSubmit}
+      <ToDoInput handleTodoSubmit={handleTodoSubmit}
         todos={todos}
         setTodos={setTodos}
       />
@@ -95,7 +95,7 @@ export const Todo = () => {
       {!isLoading &&
         <ToDoList
           todos={todos}
-          handleDelete={handleDelete}
+          handleTodoDelete={handleTodoDelete}
           handleTodoChange={handleTodoChange} 
           />}
       {(pagesCount > 1 && !isLoading) &&

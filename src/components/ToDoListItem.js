@@ -10,10 +10,11 @@ const styles = {
     marginBottom: '10px'
 };
 
-export const ToDoLIstItem = ({ todo, handleDelete, handleTodoChange }) => {
+export const ToDoLIstItem = ({ todo, handleTodoDelete, handleTodoChange }) => {
     const time = todo.createdAt.match(/\d+.\d+.\d+/s)[0];
     const [toggleInput, setToggleInput] = useState(false);
     const [task, setTask] = useState(todo);
+    const [disbled, setDisabled] = useState(false);
 
     const handleKeyDown = async (todo, e) => {
         if (e.key === 'Enter') {
@@ -23,11 +24,11 @@ export const ToDoLIstItem = ({ todo, handleDelete, handleTodoChange }) => {
         };
         if (e.key === 'Escape') {
             setToggleInput(false);
-            setTask({...task, name: todo.name})
+            setTask({ ...task, name: todo.name })
         };
     };
     const handleCheck = () => {
-        const newTask = {...task, done: !task.done}
+        const newTask = { ...task, done: !task.done }
         setTask(newTask)
         handleTodoChange(newTask)
     }
@@ -53,7 +54,7 @@ export const ToDoLIstItem = ({ todo, handleDelete, handleTodoChange }) => {
                             fullWidth
                             variant='outlined'
                             autoFocus={true}
-                            onChange={e => setTask({...task, name:e.target.value})}
+                            onChange={e => setTask({ ...task, name: e.target.value })}
                             onKeyDown={e => handleKeyDown(todo, e)} />
                         : <ListItemText primary={todo.name}
                             style={{ overflowWrap: 'break-word' }}
@@ -64,7 +65,9 @@ export const ToDoLIstItem = ({ todo, handleDelete, handleTodoChange }) => {
                     <ListItemText primary={time} />
                 </Grid>
                 <Grid item xs={1}>
-                    <IconButton onClick={() => handleDelete(todo.uuid)}>
+                    <IconButton
+                        disabled={disbled}
+                        onClick={() => handleTodoDelete(todo.uuid)}>
                         <DeleteIcon />
                     </IconButton>
                 </Grid>
