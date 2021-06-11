@@ -14,7 +14,7 @@ export const ToDoLIstItem = ({ todo, handleTodoDelete, handleTodoChange }) => {
     const time = todo.createdAt.match(/\d+.\d+.\d+/s)[0];
     const [toggleInput, setToggleInput] = useState(false);
     const [task, setTask] = useState(todo);
-    const [disbled, setDisabled] = useState(false);
+    const [disabled, setDisabled] = useState(false);
 
     const handleKeyDown = async (todo, e) => {
         if (e.key === 'Enter') {
@@ -75,7 +75,7 @@ export const ToDoLIstItem = ({ todo, handleTodoDelete, handleTodoChange }) => {
                 </Grid>
                 <Grid item xs={1}>
                     <IconButton
-                        disabled={disbled}
+                        disabled={disabled}
                         onClick={() => handleDelete()}>
                         <DeleteIcon />
                     </IconButton>
