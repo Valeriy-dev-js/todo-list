@@ -33,9 +33,13 @@ export const ToDoLIstItem = ({ todo, handleTodoDelete, handleTodoChange }) => {
         handleTodoChange(newTask);
     };
     const handleDelete = () => {
-        setDisabled(true)
-        handleTodoDelete(todo)
-    }
+        setDisabled(true);
+        handleTodoDelete(todo);
+    };
+    const handleBlur = () => {
+        setToggleInput(false);
+        setTask({ ...task, name: todo.name });
+    };
     return (
         <ListItem style={styles}>
             <Grid container
@@ -53,13 +57,14 @@ export const ToDoLIstItem = ({ todo, handleTodoDelete, handleTodoChange }) => {
                 <Grid item xs={8}>
                     {toggleInput
                         ? <TextField
-                            multiline={true}
-                            value={task.name}
-                            fullWidth
-                            variant='outlined'
-                            autoFocus={true}
+                            onBlur={() => handleBlur()}
                             onChange={e => setTask({ ...task, name: e.target.value })}
-                            onKeyDown={e => handleKeyDown(todo, e)} />
+                            onKeyDown={e => handleKeyDown(todo, e)} 
+                            value={task.name}
+                            multiline={true}
+                            autoFocus={true}
+                            variant='outlined'
+                            fullWidth />
                         : <ListItemText primary={todo.name}
                             style={{ overflowWrap: 'break-word' }}
                             multiline='true'
