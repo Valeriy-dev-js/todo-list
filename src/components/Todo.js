@@ -43,8 +43,7 @@ export const Todo = () => {
     } catch (err) {
       const message = err.response.data.message;
       if (message === 'Incorrect token') {
-        localStorage.removeItem('token');
-        localStorage.removeItem('name');
+        localStorage.clear();
         dispatch(toggleAuth());
       };
     }

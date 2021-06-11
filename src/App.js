@@ -38,13 +38,12 @@ function App() {
         handleLogin({ name, password });
     };
     const handleSignout = () => {
-        localStorage.removeItem('token')
-        localStorage.removeItem('name')
-        dispatch(toggleAuth())
+        localStorage.clear();
+        dispatch(toggleAuth());
     }
     const handleClose = () => {
-        dispatch(setIsAlert(false))
-    }
+        dispatch(setIsAlert(false));
+    };
 
     return (
         <Container maxWidth='sm'>
