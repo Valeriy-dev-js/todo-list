@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 const axiosConfig = axios.create({
-    baseURL: "https://valera-mvp.herokuapp.com/"
+    baseURL: process.env.REACT_APP_URL
 });
 
 
